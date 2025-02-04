@@ -31,7 +31,9 @@ const Forum = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">منتدى القانون</h1>
-          <Button className="bg-primary">طرح سؤال جديد</Button>
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            + سؤال جديد
+          </Button>
         </div>
 
         <div className="flex gap-6">
@@ -39,37 +41,30 @@ const Forum = () => {
           <ForumSidebar categories={categories} />
 
           {/* Main Content */}
-          <div className="flex-1">
-            {/* Search and Filters */}
-            <div className="mb-6 space-y-4">
-              <div className="relative">
-                <Search className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="ابحث في المنتدى..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10"
-                />
-              </div>
-              <div className="flex gap-2">
-                {filters.map((filter) => (
-                  <Button
-                    key={filter.id}
-                    variant={selectedFilter === filter.id ? "default" : "outline"}
-                    onClick={() => setSelectedFilter(filter.id)}
-                    className="flex items-center gap-2"
-                  >
-                    <filter.icon className="h-4 w-4" />
-                    <span>{filter.label}</span>
-                  </Button>
-                ))}
-              </div>
+          <div className="flex-1 space-y-6">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute right-3 top-3 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="ابحث في المنتدى..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pr-10"
+              />
             </div>
 
-            {/* Categories Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              {categories.map((category) => (
-                <ForumCategory key={category.id} {...category} />
+            {/* Filters */}
+            <div className="flex gap-2">
+              {filters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant={selectedFilter === filter.id ? "default" : "outline"}
+                  onClick={() => setSelectedFilter(filter.id)}
+                  className="flex items-center gap-2"
+                >
+                  <filter.icon className="h-4 w-4" />
+                  <span>{filter.label}</span>
+                </Button>
               ))}
             </div>
 

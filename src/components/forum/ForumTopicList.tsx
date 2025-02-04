@@ -1,5 +1,6 @@
 
-import { MessageSquare, ThumbsUp } from "lucide-react";
+import { MessageSquare, ThumbsUp, Star } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ForumTopicListProps {
   selectedFilter: string;
@@ -9,23 +10,26 @@ interface ForumTopicListProps {
 const mockTopics = [
   {
     id: 1,
-    title: "كيفية تحضير ملف قضية مدنية",
-    author: "أحمد محمد",
-    category: "القانون المدني",
-    replies: 15,
-    votes: 23,
-    timestamp: "منذ ساعتين",
+    title: "كيفية تسجيل شركة تجارية جديدة؟",
+    description: "أريد معرفة الإجراءات القانونية والأوراق المطلوبة لتسجيل شركة...",
+    category: "القانون التجاري",
+    votes: 25,
+    replies: 234,
+    views: 15,
+    timestamp: "قبل 3 ساعات",
+    isFeatured: false,
   },
   {
     id: 2,
-    title: "استفسار حول إجراءات الطعن",
-    author: "سارة أحمد",
-    category: "القانون الجزائي",
-    replies: 8,
-    votes: 12,
-    timestamp: "منذ 3 ساعات",
+    title: "حقوق المستأجر في حالة إخلاء العقار",
+    description: "ما هي حقوق المستأجر القانونية عندما يطلب المالك إخلاء...",
+    category: "القانون المدني",
+    votes: 42,
+    replies: 456,
+    views: 23,
+    timestamp: "قبل 5 ساعات",
+    isFeatured: true,
   },
-  // Add more mock topics as needed
 ];
 
 const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) => {
@@ -36,23 +40,38 @@ const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) =>
           key={topic.id}
           className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
         >
-          <div className="flex justify-between items-start">
-            <div>
-              <h3 className="font-semibold text-lg mb-2">{topic.title}</h3>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>{topic.author}</span>
-                <span>{topic.category}</span>
-                <span>{topic.timestamp}</span>
-              </div>
+          <div className="flex gap-6">
+            {/* Votes */}
+            <div className="flex flex-col items-center justify-center w-20 text-center">
+              <span className="text-xl font-semibold text-primary">+{topic.votes}</span>
+              <span className="text-sm text-gray-500">تصويت</span>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <MessageSquare className="h-4 w-4" />
-                <span>{topic.replies}</span>
+
+            {/* Content */}
+            <div className="flex-1">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h3 className="font-semibold text-lg mb-1">{topic.title}</h3>
+                  <p className="text-sm text-gray-600 mb-2">{topic.description}</p>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <ThumbsUp className="h-4 w-4" />
-                <span>{topic.votes}</span>
+
+              <div className="flex items-center gap-4 text-sm text-gray-600">
+                <span className="text-primary">{topic.category}</span>
+                <div className="flex items-center gap-1">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>{topic.replies} مشاهدة</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <ThumbsUp className="h-4 w-4" />
+                  <span>{topic.views} رد</span>
+                </div>
+                {topic.isFeatured && (
+                  <div className="flex items-center gap-1 text-yellow-500">
+                    <Star className="h-4 w-4 fill-yellow-500" />
+                    <span>تم التثبيت</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
