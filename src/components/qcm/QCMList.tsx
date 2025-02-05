@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -26,13 +27,23 @@ const QCMList = () => {
       description: `تحضير اختبار ${subjectName}`,
     });
     
-    // Navigate to the MCQ test page with the subject information
     navigate(`/mcq-test`, {
       state: { 
         subjectId,
         subjectName
       }
     });
+  };
+
+  const handleYearSelect = (yearId: number) => {
+    if (yearId === 2) { // If it's "اختبارات ألسنة الثانية"
+      navigate('/qcm/test-list');
+    } else {
+      toast({
+        title: "جاري تحميل الاختبارات",
+        description: "تحضير قائمة الاختبارات",
+      });
+    }
   };
 
   return (
@@ -71,7 +82,10 @@ const QCMList = () => {
                         </p>
                       </div>
                     </div>
-                    <Button className="w-full bg-primary hover:bg-primary-dark transition-colors">
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary-dark transition-colors"
+                      onClick={() => handleYearSelect(year.id)}
+                    >
                       عرض الاختبارات
                     </Button>
                   </div>
@@ -115,7 +129,7 @@ const QCMList = () => {
                     </div>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </div>
         </CardContent>

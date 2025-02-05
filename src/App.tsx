@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Course from "./pages/Course";
 import MCQTest from "./pages/MCQTest";
 import QCM from "./pages/QCM";
+import TestList from "./pages/qcm/TestList";
 import Users from "./pages/dashboard/Users";
 import Exams from "./pages/dashboard/Exams";
 import Account from "./pages/dashboard/Account";
@@ -54,6 +55,7 @@ const App = () => (
           <Route path="/course/:id" element={<Course />} />
           <Route path="/mcq-test" element={<MCQTest />} />
           <Route path="/qcm" element={<QCM />} />
+          <Route path="/qcm/test-list" element={<TestList />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
