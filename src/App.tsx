@@ -26,6 +26,8 @@ import Courses from "./pages/dashboard/Courses";
 import Settings from "./pages/dashboard/Settings";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import QCMYearList from "./pages/dashboard/qcm/QCMYearList";
+import QCMSubjects from "./pages/dashboard/qcm/QCMSubjects";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +44,9 @@ const App = () => (
               <Route index element={<Dashboard />} />
               <Route path="users/*" element={<Users />} />
               <Route path="qcm" element={<QCMCategories />} />
+              <Route path="qcm/lawyers/year1" element={<QCMYearList category="year1" />} />
+              <Route path="qcm/lawyers/year2" element={<QCMYearList category="year2" />} />
+              <Route path="qcm/subjects" element={<QCMSubjects />} />
               <Route path="qcm/exam/:id" element={<ExamView />} />
               <Route path="courses/*" element={<Courses />} />
               <Route path="settings" element={<Settings />} />
