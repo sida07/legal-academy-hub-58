@@ -46,29 +46,25 @@ const Dashboard = () => {
             title="إجمالي المستخدمين"
             value="1,234"
             trend="+12%"
-            trendDirection="up"
             icon="users"
           />
           <StatCard
             title="الدورات النشطة"
             value="45"
             trend="+5%"
-            trendDirection="up"
             icon="graduationCap"
           />
           <StatCard
             title="الاختبارات المجراة"
             value="867"
             trend="+8%"
-            trendDirection="up"
             icon="fileCheck"
           />
           <StatCard
             title="نسبة النجاح"
             value="78%"
             trend="+3%"
-            trendDirection="up"
-            icon="messageSquare"
+            icon="clipboardCheck"
           />
         </div>
 
