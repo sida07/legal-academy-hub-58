@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +15,8 @@ import QCM from "./pages/QCM";
 import Users from "./pages/dashboard/Users";
 import Exams from "./pages/dashboard/Exams";
 import Account from "./pages/dashboard/Account";
+import Courses from "./pages/dashboard/Courses";
+import Settings from "./pages/dashboard/Settings";
 
 const queryClient = new QueryClient();
 
@@ -27,14 +28,14 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<DashboardLayout>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/exams/*" element={<Exams />} />
-              <Route path="/account" element={<Account />} />
-            </Routes>
-          </DashboardLayout>} />
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="users" element={<Users />} />
+            <Route path="exams/*" element={<Exams />} />
+            <Route path="courses" element={<Courses />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="account" element={<Account />} />
+          </Route>
           <Route path="/forum" element={<Forum />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/course/:id" element={<Course />} />
