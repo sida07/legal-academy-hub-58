@@ -1,6 +1,6 @@
-```typescript
+
 import { useState } from "react";
-import { Routes, Route, useParams, useNavigate } from "react-router-dom";
+import { Routes, Route, useParams, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Table, TableHead, TableRow, TableCell, TableBody } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
@@ -76,27 +76,18 @@ const ExamsList = () => {
     const confirmDelete = window.confirm("هل أنت متأكد من حذف هذا الاختبار؟");
     
     if (confirmDelete) {
-      try {
-        setExams(prevExams => prevExams.filter(exam => exam.id !== id));
-        
-        toast({
-          title: "تم حذف الاختبار بنجاح",
-          description: "تم حذف الاختبار من النظام",
-          duration: 3000,
-        });
-      } catch (error) {
-        toast({
-          title: "خطأ في حذف الاختبار",
-          description: "حدث خطأ أثناء محاولة حذف الاختبار",
-          variant: "destructive",
-          duration: 3000,
-        });
-      }
+      setExams(prevExams => prevExams.filter(exam => exam.id !== id));
+      
+      toast({
+        title: "تم حذف الاختبار بنجاح",
+        description: "تم حذف الاختبار من النظام",
+        duration: 3000,
+      });
     }
   };
 
   return (
-    <>
+    <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
         <ListCheck className="h-6 w-6" /> إدارة الاختبارات
       </h1>
@@ -161,7 +152,7 @@ const ExamsList = () => {
             ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 };
 
@@ -176,4 +167,3 @@ const Exams = () => {
 };
 
 export default Exams;
-```
