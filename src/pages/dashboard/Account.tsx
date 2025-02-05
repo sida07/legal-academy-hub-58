@@ -95,29 +95,29 @@ const Account = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto p-6 space-y-6">
-        <h1 className="text-3xl font-bold mb-8 text-right">إعدادات الحساب</h1>
+      <div className="container mx-auto p-6 space-y-6 animate-fade-in">
+        <h1 className="text-3xl font-bold mb-8 text-right text-primary">إعدادات الحساب</h1>
 
         {/* Personal Information */}
-        <Card className="p-6">
+        <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold flex items-center gap-2">
+              <h2 className="text-2xl font-semibold flex items-center gap-2 text-[#8B5CF6]">
                 <User className="h-6 w-6" />
                 المعلومات الشخصية
               </h2>
             </div>
 
             <div className="flex justify-center mb-6">
-              <div className="relative group">
+              <div className="relative group animate-fade-in">
                 <img
                   src={profileImage}
                   alt="Profile"
-                  className="w-32 h-32 rounded-full object-cover"
+                  className="w-32 h-32 rounded-full object-cover ring-2 ring-[#9b87f5] ring-offset-2"
                 />
                 <label
                   htmlFor="profile-image"
-                  className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity"
+                  className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity duration-300"
                 >
                   <Camera className="h-8 w-8 text-white" />
                 </label>
@@ -133,25 +133,25 @@ const Account = () => {
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName">الاسم الكامل</Label>
+                <Label htmlFor="fullName" className="text-[#403E43]">الاسم الكامل</Label>
                 <Input
                   id="fullName"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="text-right"
+                  className="text-right hover:border-[#9b87f5] transition-colors"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">البريد الإلكتروني</Label>
+                <Label htmlFor="email" className="text-[#403E43]">البريد الإلكتروني</Label>
                 <div className="relative">
                   <Input
                     id="email"
                     name="email"
                     value={formData.email}
                     readOnly
-                    className="bg-gray-100 text-right"
+                    className="bg-gray-50 text-right pr-10"
                   />
                   <Mail className="absolute top-3 right-3 h-5 w-5 text-gray-400" />
                 </div>
@@ -162,12 +162,12 @@ const Account = () => {
               <Button
                 variant="outline"
                 onClick={handleResetProfile}
-                className="gap-2"
+                className="gap-2 hover:bg-gray-100"
               >
                 <RotateCcw className="h-4 w-4" />
                 إعادة تعيين
               </Button>
-              <Button onClick={handleSaveProfile} className="gap-2">
+              <Button onClick={handleSaveProfile} className="gap-2 bg-[#9b87f5] hover:bg-[#8B5CF6]">
                 <Save className="h-4 w-4" />
                 حفظ التغييرات
               </Button>
@@ -176,9 +176,9 @@ const Account = () => {
         </Card>
 
         {/* Password Change */}
-        <Card className="p-6">
+        <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold flex items-center gap-2">
+            <h2 className="text-2xl font-semibold flex items-center gap-2 text-[#8B5CF6]">
               <Lock className="h-6 w-6" />
               تغيير كلمة المرور
             </h2>
@@ -225,7 +225,7 @@ const Account = () => {
                   <X className="h-4 w-4" />
                   إلغاء
                 </Button>
-                <Button type="submit" className="gap-2">
+                <Button type="submit" className="gap-2 bg-[#9b87f5] hover:bg-[#8B5CF6]">
                   <Check className="h-4 w-4" />
                   تحديث كلمة المرور
                 </Button>
@@ -235,9 +235,9 @@ const Account = () => {
         </Card>
 
         {/* Security Settings */}
-        <Card className="p-6">
+        <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
           <div className="space-y-6">
-            <h2 className="text-2xl font-semibold flex items-center gap-2">
+            <h2 className="text-2xl font-semibold flex items-center gap-2 text-[#8B5CF6]">
               <Shield className="h-6 w-6" />
               إعدادات الأمان
             </h2>
