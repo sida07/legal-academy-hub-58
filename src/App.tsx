@@ -18,7 +18,7 @@ import QCM from "./pages/QCM";
 import TestList from "./pages/qcm/TestList";
 import FirstYearTestList from "./pages/qcm/FirstYearTestList";
 import Users from "./pages/dashboard/Users";
-import Exams from "./pages/dashboard/Exams";
+import QCMDashboard from "./pages/dashboard/QCMDashboard";
 import Account from "./pages/dashboard/Account";
 import Courses from "./pages/dashboard/Courses";
 import Settings from "./pages/dashboard/Settings";
@@ -39,7 +39,7 @@ const App = () => (
             <Route path="/dashboard">
               <Route index element={<Dashboard />} />
               <Route path="users/*" element={<Users />} />
-              <Route path="exams/*" element={<Exams />} />
+              <Route path="qcm/*" element={<QCMDashboard />} />
               <Route path="courses/*" element={<Courses />} />
               <Route path="settings" element={<Settings />} />
               <Route path="account" element={<Account />} />
