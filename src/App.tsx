@@ -9,6 +9,7 @@ import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Forum from "./pages/Forum";
 import Profile from "./pages/Profile";
+import Course from "./pages/Course";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/course/:id" element={<Course />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
