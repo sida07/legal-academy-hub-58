@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Users,
   GraduationCap,
@@ -46,18 +46,29 @@ const menuItems = [
 ];
 
 export function AdminSidebar() {
+  const location = useLocation();
+
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="bg-white shadow-lg h-screen w-64 fixed right-0 top-0 text-right">
+      <SidebarContent className="p-4">
         <SidebarGroup>
-          <SidebarGroupLabel>لوحة التحكم</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-lg font-semibold text-gray-700 mb-4">
+            لوحة التحكم
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild>
-                    <Link to={item.href} className="flex items-center gap-2">
-                      <item.icon className="h-4 w-4" />
+                    <Link
+                      to={item.href}
+                      className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all ${
+                        location.pathname === item.href
+                          ? "bg-blue-600 text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      <item.icon className="h-5 w-5" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
