@@ -1,6 +1,8 @@
 
-import { MessageSquare, ThumbsUp, Star } from "lucide-react";
+import { MessageSquare, ThumbsUp, Star, Share2, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface ForumTopicListProps {
   selectedFilter: string;
@@ -15,9 +17,13 @@ const mockTopics = [
     category: "القانون التجاري",
     votes: 25,
     replies: 234,
-    views: 15,
+    views: 1520,
     timestamp: "قبل 3 ساعات",
     isFeatured: false,
+    author: {
+      name: "أحمد محمد",
+      avatar: "https://i.pravatar.cc/150?u=ahmed"
+    }
   },
   {
     id: 2,
@@ -26,50 +32,111 @@ const mockTopics = [
     category: "القانون المدني",
     votes: 42,
     replies: 456,
-    views: 23,
+    views: 2300,
     timestamp: "قبل 5 ساعات",
     isFeatured: true,
+    author: {
+      name: "سارة أحمد",
+      avatar: "https://i.pravatar.cc/150?u=sara"
+    }
   },
 ];
 
 const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) => {
+  const { toast } = useToast();
+
+  const handleShare = async (topic: typeof mockTopics[0]) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: topic.title,
+          text: topic.description,
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.error("Error sharing:", err);
+      }
+    } else {
+      // Fallback to copying to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      toast({
+        title: "تم نسخ الرابط",
+        description: "تم نسخ رابط الموضوع إلى الحافظة",
+      });
+    }
+  };
+
   return (
     <div className="space-y-4">
       {mockTopics.map((topic) => (
         <div
           key={topic.id}
-          className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+          className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 p-6"
         >
           <div className="flex gap-6">
-            {/* Votes */}
-            <div className="flex flex-col items-center justify-center w-20 text-center">
-              <span className="text-xl font-semibold text-primary">+{topic.votes}</span>
-              <span className="text-sm text-gray-500">تصويت</span>
+            {/* Author Info */}
+            <div className="flex flex-col items-center space-y-2">
+              <img
+                src={topic.author.avatar}
+                alt={topic.author.name}
+                className="w-12 h-12 rounded-full border-2 border-blue-100"
+              />
+              <span className="text-sm text-gray-600">{topic.author.name}</span>
             </div>
 
             {/* Content */}
             <div className="flex-1">
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="font-semibold text-lg mb-1">{topic.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{topic.description}</p>
+                  <h3 className="font-semibold text-xl mb-2 hover:text-blue-600 transition-colors">
+                    {topic.title}
+                  </h3>
+                  <p className="text-gray-600 mb-3">{topic.description}</p>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span className="text-primary">{topic.category}</span>
-                <div className="flex items-center gap-1">
-                  <MessageSquare className="h-4 w-4" />
-                  <span>{topic.replies} مشاهدة</span>
+              <div className="flex items-center gap-6 text-sm text-gray-600">
+                <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full">
+                  {topic.category}
+                </span>
+                
+                <div className="flex items-center gap-6">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-1 hover:text-blue-600"
+                  >
+                    <ThumbsUp className="h-4 w-4" />
+                    <span>{topic.votes}</span>
+                  </Button>
+
+                  <div className="flex items-center gap-1">
+                    <MessageSquare className="h-4 w-4" />
+                    <span>{topic.replies} رد</span>
+                  </div>
+
+                  <div className="flex items-center gap-1">
+                    <Eye className="h-4 w-4" />
+                    <span>{topic.views} مشاهدة</span>
+                  </div>
+
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center gap-1 hover:text-blue-600"
+                    onClick={() => handleShare(topic)}
+                  >
+                    <Share2 className="h-4 w-4" />
+                    <span>مشاركة</span>
+                  </Button>
                 </div>
-                <div className="flex items-center gap-1">
-                  <ThumbsUp className="h-4 w-4" />
-                  <span>{topic.views} رد</span>
-                </div>
+
+                <span className="text-gray-500">{topic.timestamp}</span>
+
                 {topic.isFeatured && (
                   <div className="flex items-center gap-1 text-yellow-500">
                     <Star className="h-4 w-4 fill-yellow-500" />
-                    <span>تم التثبيت</span>
+                    <span>مثبت</span>
                   </div>
                 )}
               </div>
