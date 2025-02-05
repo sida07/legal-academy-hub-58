@@ -5,6 +5,8 @@ import {
   ClipboardList,
   Settings,
   UserCog,
+  LayoutGrid,
+  Bell,
 } from "lucide-react";
 import {
   Sidebar,
@@ -37,6 +39,11 @@ const menuItems = [
     title: "إدارة الاختبارات",
     icon: ClipboardList,
     href: "/dashboard/exams",
+  },
+  {
+    title: "إدارة أقسام الموقع",
+    icon: LayoutGrid,
+    href: "/dashboard/sections",
   },
   {
     title: "إعدادات لوحة التحكم",
