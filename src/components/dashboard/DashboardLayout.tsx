@@ -2,6 +2,7 @@ import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
 interface DashboardLayoutProps {
   children?: ReactNode;
@@ -15,7 +16,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="flex-1 p-6">
           <AdminHeader />
           <main className="max-w-7xl mx-auto p-6">
-            {children}
+            <Outlet />
           </main>
         </div>
       </SidebarProvider>
