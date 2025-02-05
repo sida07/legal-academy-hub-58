@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   FileText,
   Plus,
   Search,
@@ -40,7 +48,24 @@ const QCMDashboard = () => {
       participants: 120,
       successRate: 75,
     },
-    // Add more mock tests here
+    {
+      id: "2",
+      title: "اختبار سنة 2023",
+      category: "lawyer",
+      year: "2023", 
+      questionsCount: 50,
+      participants: 200,
+      successRate: 68,
+    },
+    {
+      id: "3",
+      title: "اختبار سنة 2022",
+      category: "lawyer",
+      year: "2022",
+      questionsCount: 50,
+      participants: 180,
+      successRate: 72,
+    }
   ];
 
   const filteredTests = mockTests.filter(
@@ -71,7 +96,7 @@ const QCMDashboard = () => {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">إدارة الاختبارات</h1>
         <Button onClick={handleAddTest} className="gap-2">
@@ -144,54 +169,49 @@ const QCMDashboard = () => {
           </TabsList>
 
           <TabsContent value="lawyer" className="mt-6">
-            <div className="grid gap-4">
-              {filteredTests.map((test) => (
-                <Card key={test.id}>
-                  <CardHeader>
-                    <CardTitle className="flex justify-between items-center">
-                      <span className="flex items-center gap-2">
-                        <FileText className="h-5 w-5 text-primary" />
-                        {test.title}
-                      </span>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => handleEditTest(test.id)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon"
-                          onClick={() => handleDeleteTest(test.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-muted-foreground" />
-                        <span>{test.questionsCount} سؤال</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-muted-foreground" />
-                        <span>{test.participants} مشارك</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <BarChart className="h-4 w-4 text-green-500" />
-                        <span className="text-green-500">
-                          نسبة النجاح {test.successRate}%
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>الاختبار</TableHead>
+                      <TableHead>عدد الأسئلة</TableHead>
+                      <TableHead>عدد المشاركين</TableHead>
+                      <TableHead>نسبة النجاح</TableHead>
+                      <TableHead>الإجراءات</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredTests.map((test) => (
+                      <TableRow key={test.id}>
+                        <TableCell className="font-medium">{test.title}</TableCell>
+                        <TableCell>{test.questionsCount}</TableCell>
+                        <TableCell>{test.participants}</TableCell>
+                        <TableCell>{test.successRate}%</TableCell>
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleEditTest(test.id)}
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => handleDeleteTest(test.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="other">
