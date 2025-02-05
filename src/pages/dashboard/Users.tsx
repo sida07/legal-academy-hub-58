@@ -39,27 +39,52 @@ export default function Users() {
   const { toast } = useToast();
 
   const handleDelete = (id: number) => {
-    if (window.confirm("هل أنت متأكد من حذف هذا المستخدم؟")) {
-      setUsers(users.filter((user) => user.id !== id));
-      toast({
-        title: "تم حذف المستخدم بنجاح",
-        duration: 3000,
-      });
+    const confirmDelete = window.confirm("هل أنت متأكد من حذف هذا المستخدم؟");
+    
+    if (confirmDelete) {
+      try {
+        // Remove user from state
+        setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+        
+        // Show success toast
+        toast({
+          title: "تم حذف المستخدم بنجاح",
+          description: "تم حذف المستخدم من النظام",
+          duration: 3000,
+        });
+      } catch (error) {
+        // Show error toast if something goes wrong
+        toast({
+          title: "خطأ في حذف المستخدم",
+          description: "حدث خطأ أثناء محاولة حذف المستخدم",
+          variant: "destructive",
+          duration: 3000,
+        });
+      }
     }
   };
 
   const handleBan = (id: number) => {
-    setUsers(
-      users.map((user) =>
+    try {
+      setUsers(users.map((user) =>
         user.id === id
           ? { ...user, status: user.status === "نشط" ? "محظور" : "نشط" }
           : user
-      )
-    );
-    toast({
-      title: "تم تحديث حالة المستخدم",
-      duration: 3000,
-    });
+      ));
+      
+      toast({
+        title: "تم تحديث حالة المستخدم",
+        description: "تم تحديث حالة المستخدم بنجاح",
+        duration: 3000,
+      });
+    } catch (error) {
+      toast({
+        title: "خطأ في تحديث الحالة",
+        description: "حدث خطأ أثناء محاولة تحديث حالة المستخدم",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   return (
