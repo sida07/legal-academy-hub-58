@@ -5,17 +5,12 @@ import QCMList from "./QCMList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock } from "lucide-react";
 
-interface QCMHeaderProps {
-  isMenuOpen: boolean;
-  setIsMenuOpen: (isOpen: boolean) => void;
-}
-
 const QCMLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <QCMHeader isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <QCMHeader />
       
       <div className="container mx-auto px-4 py-8 max-w-7xl pt-20">
         <QCMStats />
