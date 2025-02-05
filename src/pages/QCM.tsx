@@ -1,8 +1,8 @@
 
-import TestList from "./qcm/TestList";
+import QCMLayout from "@/components/qcm/QCMLayout";
 
 const QCM = () => {
-  return <TestList />;
+  return <QCMLayout />;
 };
 
 export default QCM;
