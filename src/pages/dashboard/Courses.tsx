@@ -3,8 +3,41 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Search } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { Routes, Route, useParams, useNavigate } from "react-router-dom";
 
-const Courses = () => {
+const CourseForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: id ? "تم تحديث الدورة" : "تم إضافة الدورة",
+      description: id ? "تم تحديث الدورة بنجاح" : "تم إضافة الدورة بنجاح",
+    });
+    navigate("/dashboard/courses");
+  };
+
+  return (
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-6">
+        {id ? "تعديل الدورة" : "إضافة دورة جديدة"}
+      </h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block mb-2">عنوان الدورة</label>
+          <Input placeholder="أدخل عنوان الدورة" />
+        </div>
+        <Button type="submit">
+          {id ? "تحديث الدورة" : "إضافة الدورة"}
+        </Button>
+      </form>
+    </div>
+  );
+};
+
+const CoursesList = () => {
   const { toast } = useToast();
 
   const courses = [
@@ -79,6 +112,16 @@ const Courses = () => {
         </TableBody>
       </Table>
     </div>
+  );
+};
+
+const Courses = () => {
+  return (
+    <Routes>
+      <Route index element={<CoursesList />} />
+      <Route path="new" element={<CourseForm />} />
+      <Route path=":id/edit" element={<CourseForm />} />
+    </Routes>
   );
 };
 
