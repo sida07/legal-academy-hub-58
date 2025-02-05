@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +16,7 @@ import Course from "./pages/Course";
 import MCQTest from "./pages/MCQTest";
 import QCM from "./pages/QCM";
 import TestList from "./pages/qcm/TestList";
+import FirstYearTestList from "./pages/qcm/FirstYearTestList";
 import Users from "./pages/dashboard/Users";
 import Exams from "./pages/dashboard/Exams";
 import Account from "./pages/dashboard/Account";
@@ -56,6 +56,7 @@ const App = () => (
           <Route path="/mcq-test" element={<MCQTest />} />
           <Route path="/qcm" element={<QCM />} />
           <Route path="/qcm/test-list" element={<TestList />} />
+          <Route path="/qcm/test-list1" element={<FirstYearTestList />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />

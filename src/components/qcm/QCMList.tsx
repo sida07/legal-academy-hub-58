@@ -38,12 +38,7 @@ const QCMList = () => {
     if (yearId === 2) {
       navigate('/qcm/test-list');
     } else {
-      navigate('/mcq-test', {
-        state: {
-          testYear: "2024",
-          testName: "اختبار سنة 2024"
-        }
-      });
+      navigate('/qcm/test-list1');
     }
   };
 
