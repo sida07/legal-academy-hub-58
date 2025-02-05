@@ -1,3 +1,4 @@
+
 import { Card } from "@/components/ui/card";
 import {
   LineChart,
@@ -9,7 +10,7 @@ import {
 } from "recharts";
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
-import UserManagement from "@/components/dashboard/users/UserManagement";
+import Users from "./dashboard/Users";
 import Account from "./dashboard/Account";
 import StatCard from "@/components/dashboard/StatCard";
 import { Bell } from "lucide-react";
@@ -33,7 +34,7 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <Routes>
-        <Route path="users/*" element={<UserManagement />} />
+        <Route path="users/*" element={<Users />} />
         <Route path="account/*" element={<Account />} />
         <Route
           path="/*"
