@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Timer, Book, Award, CheckCircle2, XCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Timer, Book, Award, CheckCircle2, XCircle, StopCircle } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Question {
   id: number;
@@ -28,11 +30,21 @@ const sampleQuestions: Question[] = [
 
 const MCQTest = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { toast } = useToast();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
+
+  const handleEndTest = () => {
+    toast({
+      title: "تم إنهاء الاختبار",
+      description: "سيتم توجيهك إلى صفحة الاختبارات",
+    });
+    navigate('/qcm');
+  };
 
   const handleAnswerSelect = (index: number) => {
     setSelectedAnswer(index);
@@ -52,6 +64,7 @@ const MCQTest = () => {
   };
 
   const progress = ((currentQuestion + 1) / sampleQuestions.length) * 100;
+  const subjectName = location.state?.subjectName || "الاختبار";
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
@@ -59,7 +72,7 @@ const MCQTest = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <Book className="w-6 h-6 text-primary" />
-            <h1 className="text-2xl font-bold text-gray-900">اختبار القانون المدني</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{subjectName}</h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm">
@@ -69,10 +82,11 @@ const MCQTest = () => {
               </span>
             </div>
             <Button
-              variant="outline"
-              onClick={() => navigate('/dashboard')}
+              variant="destructive"
+              onClick={handleEndTest}
               className="gap-2"
             >
+              <StopCircle className="w-5 h-5" />
               إنهاء الاختبار
             </Button>
           </div>
@@ -141,7 +155,7 @@ const MCQTest = () => {
                   </div>
                 </div>
                 <div className="flex justify-center gap-4 pt-6">
-                  <Button onClick={() => navigate('/dashboard')}>
+                  <Button onClick={() => navigate('/qcm')}>
                     العودة للرئيسية
                   </Button>
                   <Button variant="outline" onClick={() => window.location.reload()}>
