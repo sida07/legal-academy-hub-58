@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Question } from "@/types/qcm";
+import { Question, questionSchema } from "@/types/qcm";
 import QuestionTable from "@/components/qcm/exam/QuestionTable";
 import NewQuestionDialog from "@/components/qcm/exam/NewQuestionDialog";
 import EditQuestionDialog from "@/components/qcm/exam/EditQuestionDialog";

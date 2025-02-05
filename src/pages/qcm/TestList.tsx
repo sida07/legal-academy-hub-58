@@ -47,7 +47,7 @@ const TestList = ({ category }: TestListProps) => {
 
   const filteredTests = mockTests.filter(
     test => test.year.includes(searchTerm) && 
-    (category === "all" || test.category === category)
+    test.category === category
   );
 
   const handleStartTest = (year: string) => {
