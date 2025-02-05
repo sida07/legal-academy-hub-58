@@ -11,6 +11,7 @@ import Forum from "./pages/Forum";
 import Profile from "./pages/Profile";
 import Course from "./pages/Course";
 import MCQTest from "./pages/MCQTest";
+import QCM from "./pages/QCM";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/profile" element={<Profile />} />
           <Route path="/course/:id" element={<Course />} />
           <Route path="/mcq-test" element={<MCQTest />} />
+          <Route path="/qcm" element={<QCM />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
