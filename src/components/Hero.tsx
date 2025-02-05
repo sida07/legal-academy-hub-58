@@ -1,4 +1,3 @@
-
 const Hero = () => {
   return (
     <div className="bg-primary text-white py-20 px-4">

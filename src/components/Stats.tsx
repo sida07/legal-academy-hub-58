@@ -1,4 +1,3 @@
-
 const Stats = () => {
   return (
     <div className="py-16 bg-gray-50">
