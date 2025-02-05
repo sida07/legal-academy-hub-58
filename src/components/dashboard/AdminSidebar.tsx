@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -9,50 +10,48 @@ import {
   User,
 } from "lucide-react";
 
+const sidebarLinks = [
+  {
+    href: "/dashboard",
+    label: "لوحة التحكم",
+    icon: LayoutDashboard,
+  },
+  {
+    href: "/dashboard/users",
+    label: "المستخدمين",
+    icon: Users,
+  },
+  {
+    href: "/dashboard/courses",
+    label: "الدورات",
+    icon: BookOpen,
+  },
+  {
+    href: "/dashboard/exams",
+    label: "الاختبارات",
+    icon: FileText,
+  },
+  {
+    href: "/dashboard/settings",
+    label: "الإعدادات",
+    icon: Settings,
+  },
+  {
+    href: "/dashboard/account",
+    label: "حسابي",
+    icon: User,
+  },
+];
+
 const AdminSidebar = () => {
   const location = useLocation();
 
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
-
-  const links = [
-    {
-      href: "/dashboard",
-      label: "لوحة التحكم",
-      icon: LayoutDashboard,
-    },
-    {
-      href: "/dashboard/users",
-      label: "المستخدمين",
-      icon: Users,
-    },
-    {
-      href: "/dashboard/courses",
-      label: "الدورات",
-      icon: BookOpen,
-    },
-    {
-      href: "/dashboard/exams",
-      label: "الاختبارات",
-      icon: FileText,
-    },
-    {
-      href: "/dashboard/settings",
-      label: "الإعدادات",
-      icon: Settings,
-    },
-    {
-      href: "/dashboard/account",
-      label: "حسابي",
-      icon: User,
-    },
-  ];
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="h-screen w-64 border-l bg-white p-4">
-      <div className="space-y-2">
-        {links.map((link) => {
+    <aside className="h-screen w-64 border-l bg-white p-4">
+      <nav className="space-y-2">
+        {sidebarLinks.map((link) => {
           const Icon = link.icon;
           return (
             <Link
@@ -68,8 +67,8 @@ const AdminSidebar = () => {
             </Link>
           );
         })}
-      </div>
-    </div>
+      </nav>
+    </aside>
   );
 };
 
