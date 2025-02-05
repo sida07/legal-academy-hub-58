@@ -8,6 +8,9 @@ import { useToast } from "@/hooks/use-toast";
 import CourseForm from "@/components/dashboard/courses/CourseForm";
 import CoursesList from "@/components/dashboard/courses/CoursesList";
 import CourseStats from "@/components/dashboard/courses/CourseStats";
+import CourseContent from "@/components/dashboard/courses/CourseContent";
+import CourseStudents from "@/components/dashboard/courses/CourseStudents";
+import CourseMaterials from "@/components/dashboard/courses/CourseMaterials";
 
 const Courses = () => {
   return (
@@ -15,6 +18,9 @@ const Courses = () => {
       <Route index element={<CoursesPage />} />
       <Route path="new" element={<CourseForm />} />
       <Route path=":id/edit" element={<CourseForm />} />
+      <Route path=":id/content" element={<CourseContent />} />
+      <Route path=":id/materials" element={<CourseMaterials />} />
+      <Route path=":id/students" element={<CourseStudents />} />
     </Routes>
   );
 };
