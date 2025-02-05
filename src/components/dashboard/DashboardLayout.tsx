@@ -28,7 +28,7 @@ const DashboardLayout = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-right" dir="rtl">
       <AdminHeader />
-
+      
       {/* Main Content */}
       <main className="max-w-7xl mx-auto p-6">
         {/* Stats Grid */}
