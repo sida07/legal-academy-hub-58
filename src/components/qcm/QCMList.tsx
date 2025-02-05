@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -11,7 +10,7 @@ const QCMList = () => {
   const { toast } = useToast();
 
   const years = [
-    { id: 1, year: "اختبرات ألسنة الولي", exams: 8, users: 120, avgScore: 85 },
+    { id: 1, year: "اختبارات ألسنة الولي", exams: 1, users: 120, avgScore: 85 },
     { id: 2, year: "اختبارات ألسنة الثانية", exams: 12, users: 250, avgScore: 78 }
   ];
 
@@ -36,12 +35,14 @@ const QCMList = () => {
   };
 
   const handleYearSelect = (yearId: number) => {
-    if (yearId === 2) { // If it's "اختبارات ألسنة الثانية"
+    if (yearId === 2) {
       navigate('/qcm/test-list');
     } else {
-      toast({
-        title: "جاري تحميل الاختبارات",
-        description: "تحضير قائمة الاختبارات",
+      navigate('/mcq-test', {
+        state: {
+          testYear: "2024",
+          testName: "اختبار سنة 2024"
+        }
       });
     }
   };
