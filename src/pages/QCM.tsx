@@ -125,7 +125,7 @@ const QCM = () => {
                         <Button className="mt-4 w-full">بدء الاختبار</Button>
                       </CardContent>
                     </Card>
-                  )
+                  );
                 })}
               </div>
             </CardContent>
