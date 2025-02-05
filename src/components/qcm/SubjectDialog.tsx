@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,12 +27,12 @@ const SubjectDialog = ({
   onSave,
 }: SubjectDialogProps) => {
   const isEdit = mode === "edit";
-  const [name, setName] = React.useState(subject?.name ?? "");
-  const [questionCount, setQuestionCount] = React.useState(
+  const [name, setName] = useState(subject?.name ?? "");
+  const [questionCount, setQuestionCount] = useState(
     subject?.questionCount?.toString() ?? "50"
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (subject) {
       setName(subject.name);
       setQuestionCount(subject.questionCount.toString());
