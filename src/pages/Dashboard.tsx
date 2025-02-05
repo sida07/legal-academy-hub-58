@@ -33,8 +33,8 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <Routes>
-        <Route path="/users" element={<UserManagement />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="users" element={<UserManagement />} />
+        <Route path="account" element={<Account />} />
         <Route
           path="/"
           element={
