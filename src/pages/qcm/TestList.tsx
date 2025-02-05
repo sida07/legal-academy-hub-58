@@ -15,46 +15,52 @@ interface Test {
   duration: number;
   difficulty: "سهل" | "متوسط" | "صعب";
   category: "lawyer" | "other";
+  year: string;
 }
 
-const mockTests: Test[] = [
-  {
-    id: 1,
-    title: "اختبار القانون المدني",
-    subject: "القانون المدني",
-    questionsCount: 50,
-    duration: 60,
-    difficulty: "متوسط",
-    category: "lawyer"
-  },
-  {
-    id: 2,
-    title: "اختبار القانون الجنائي",
-    subject: "القانون الجنائي",
-    questionsCount: 40,
-    duration: 45,
-    difficulty: "صعب",
-    category: "lawyer"
-  },
-  {
-    id: 3,
-    title: "اختبار القانون الإداري",
-    subject: "القانون الإداري",
-    questionsCount: 30,
-    duration: 30,
-    difficulty: "سهل",
-    category: "lawyer"
+// Generate tests for years 2000-2024
+const generateTests = () => {
+  const tests: Test[] = [];
+  const subjects = [
+    "القانون المدني",
+    "القانون الجنائي",
+    "القانون الإداري",
+    "القانون التجاري",
+    "القانون الدستوري"
+  ];
+  const difficulties = ["سهل", "متوسط", "صعب"] as const;
+
+  for (let year = 2024; year >= 2000; year--) {
+    subjects.forEach((subject, index) => {
+      tests.push({
+        id: (2024 - year) * subjects.length + index + 1,
+        title: `اختبار ${subject} - دورة ${year}`,
+        subject: subject,
+        questionsCount: 50,
+        duration: 60,
+        difficulty: difficulties[Math.floor(Math.random() * 3)],
+        category: "lawyer",
+        year: year.toString()
+      });
+    });
   }
-];
+  return tests;
+};
+
+const mockTests = generateTests();
 
 const TestList = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentTab, setCurrentTab] = useState<"lawyer" | "other">("lawyer");
+  const [selectedYear, setSelectedYear] = useState<string>("all");
+
+  const years = Array.from(new Set(mockTests.map(test => test.year))).sort((a, b) => Number(b) - Number(a));
 
   const filteredTests = mockTests.filter(
     test =>
       test.category === currentTab &&
+      (selectedYear === "all" || test.year === selectedYear) &&
       (test.title.includes(searchTerm) || test.subject.includes(searchTerm))
   );
 
@@ -78,16 +84,30 @@ const TestList = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <h1 className="text-3xl font-bold">الاختبارات المتوفرة</h1>
-          <div className="relative w-64">
-            <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="بحث في الاختبارات..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pr-9"
-            />
+          <div className="flex gap-4 w-full md:w-auto">
+            <select
+              className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+            >
+              <option value="all">كل السنوات</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  سنة {year}
+                </option>
+              ))}
+            </select>
+            <div className="relative w-64">
+              <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="بحث في الاختبارات..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pr-9"
+              />
+            </div>
           </div>
         </div>
 
