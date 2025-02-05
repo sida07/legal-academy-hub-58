@@ -13,6 +13,7 @@ import UserManagement from "@/components/dashboard/users/UserManagement";
 import Account from "./dashboard/Account";
 import StatCard from "@/components/dashboard/StatCard";
 import { Bell } from "lucide-react";
+import Users from "./dashboard/Users";
 
 const userActivityData = [
   { name: "يناير", value: 400 },
@@ -33,7 +34,7 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <Routes>
-        <Route path="users" element={<UserManagement />} />
+        <Route path="users" element={<Users />} />
         <Route path="account" element={<Account />} />
         <Route
           path="/"
