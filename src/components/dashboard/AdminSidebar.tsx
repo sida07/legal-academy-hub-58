@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -27,7 +26,7 @@ const sidebarLinks = [
     icon: BookOpen,
   },
   {
-    href: "/dashboard/exams",
+    href: "/dashboard/qcm",
     label: "الاختبارات",
     icon: FileText,
   },
