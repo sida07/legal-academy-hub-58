@@ -1,11 +1,9 @@
-import AdminHeader from "@/components/dashboard/AdminHeader";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-right" dir="rtl">
-      <AdminHeader />
       <main className="max-w-7xl mx-auto p-6">
         <div className="text-center py-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
