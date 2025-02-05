@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -14,63 +13,20 @@ interface Question {
   correctAnswer: number;
 }
 
-const sampleQuestions: Question[] = [
-  {
-    id: 1,
-    text: "ما هو المبدأ الأساسي في القانون المدني؟",
+// This will be replaced with actual data from the admin panel
+const generateYearlyQuestions = (year: string): Question[] => {
+  return Array.from({ length: 50 }, (_, index) => ({
+    id: index + 1,
+    text: `سؤال رقم ${index + 1} من اختبار سنة ${year}`,
     options: [
-      "حسن النية في التعاقد",
-      "المسؤولية التقصيرية",
-      "حرية التعاقد",
-      "الإثراء بلا سبب"
+      `الخيار الأول للسؤال ${index + 1}`,
+      `الخيار الثاني للسؤال ${index + 1}`,
+      `الخيار الثالث للسؤال ${index + 1}`,
+      `الخيار الرابع للسؤال ${index + 1}`
     ],
-    correctAnswer: 2
-  },
-  {
-    id: 2,
-    text: "متى يعتبر العقد باطلاً؟",
-    options: [
-      "عند تخلف ركن من أركانه",
-      "عند وجود خطأ في التنفيذ",
-      "عند تأخر التنفيذ",
-      "عند وجود ظروف طارئة"
-    ],
-    correctAnswer: 0
-  },
-  {
-    id: 3,
-    text: "ما هو مصدر الالتزام في المسؤولية التقصيرية؟",
-    options: [
-      "العقد",
-      "القانون",
-      "الفعل الضار",
-      "الإرادة المنفردة"
-    ],
-    correctAnswer: 2
-  },
-  {
-    id: 4,
-    text: "ما هي شروط صحة العقد؟",
-    options: [
-      "الأهلية والرضا والمحل والسبب",
-      "الشكل والكتابة والتوثيق",
-      "الإيجاب والقبول فقط",
-      "التسليم والقبض"
-    ],
-    correctAnswer: 0
-  },
-  {
-    id: 5,
-    text: "ما هو أثر البطلان النسبي للعقد؟",
-    options: [
-      "يزول العقد بأثر رجعي",
-      "يمكن تصحيح العقد بالإجازة",
-      "يستمر العقد صحيحاً",
-      "ينتهي العقد فوراً"
-    ],
-    correctAnswer: 1
-  }
-];
+    correctAnswer: Math.floor(Math.random() * 4)
+  }));
+};
 
 const MCQTest = () => {
   const navigate = useNavigate();
@@ -81,6 +37,31 @@ const MCQTest = () => {
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  const testYear = location.state?.testYear || "2024";
+  const testName = location.state?.testName || `اختبار سنة ${testYear}`;
+
+  useEffect(() => {
+    // This will be replaced with an API call to fetch questions from the admin panel
+    const yearlyQuestions = generateYearlyQuestions(testYear);
+    setQuestions(yearlyQuestions);
+  }, [testYear]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setShowResults(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleEndTest = () => {
     toast({
@@ -95,11 +76,11 @@ const MCQTest = () => {
   };
 
   const handleNextQuestion = () => {
-    if (selectedAnswer === sampleQuestions[currentQuestion].correctAnswer) {
+    if (selectedAnswer === questions[currentQuestion]?.correctAnswer) {
       setScore(score + 1);
     }
 
-    if (currentQuestion < sampleQuestions.length - 1) {
+    if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedAnswer(null);
     } else {
@@ -107,8 +88,11 @@ const MCQTest = () => {
     }
   };
 
-  const progress = ((currentQuestion + 1) / sampleQuestions.length) * 100;
-  const subjectName = location.state?.subjectName || "الاختبار";
+  if (questions.length === 0) {
+    return <div className="text-center p-8">جاري تحميل الاختبار...</div>;
+  }
+
+  const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8 animate-fade-in">
@@ -116,7 +100,7 @@ const MCQTest = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-2">
             <Book className="w-6 h-6 text-primary" />
-            <h1 className="text-2xl font-bold text-gray-900">{subjectName}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{testName}</h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg shadow-sm">
@@ -141,14 +125,14 @@ const MCQTest = () => {
             <Card className="mb-6 animate-slide-up">
               <CardHeader>
                 <CardTitle className="flex justify-between items-center">
-                  <span>السؤال {currentQuestion + 1} من {sampleQuestions.length}</span>
+                  <span>السؤال {currentQuestion + 1} من {questions.length}</span>
                   <Progress value={progress} className="w-32" />
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-lg mb-6">{sampleQuestions[currentQuestion].text}</p>
+                <p className="text-lg mb-6">{questions[currentQuestion].text}</p>
                 <div className="space-y-4">
-                  {sampleQuestions[currentQuestion].options.map((option, index) => (
+                  {questions[currentQuestion].options.map((option, index) => (
                     <button
                       key={index}
                       onClick={() => handleAnswerSelect(index)}
@@ -171,7 +155,7 @@ const MCQTest = () => {
                 disabled={selectedAnswer === null}
                 className="gap-2"
               >
-                {currentQuestion === sampleQuestions.length - 1 ? 'إنهاء الاختبار' : 'السؤال التالي'}
+                {currentQuestion === questions.length - 1 ? 'إنهاء الاختبار' : 'السؤال التالي'}
               </Button>
             </div>
           </>
@@ -186,7 +170,7 @@ const MCQTest = () => {
             <CardContent>
               <div className="text-center space-y-6">
                 <div className="text-4xl font-bold text-primary">
-                  {Math.round((score / sampleQuestions.length) * 100)}%
+                  {Math.round((score / questions.length) * 100)}%
                 </div>
                 <div className="flex justify-center gap-8">
                   <div className="flex items-center gap-2">
@@ -195,7 +179,7 @@ const MCQTest = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <XCircle className="w-5 h-5 text-red-500" />
-                    <span>الإجابات الخاطئة: {sampleQuestions.length - score}</span>
+                    <span>الإجابات الخاطئة: {questions.length - score}</span>
                   </div>
                 </div>
                 <div className="flex justify-center gap-4 pt-6">
