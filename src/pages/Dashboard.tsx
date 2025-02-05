@@ -33,10 +33,10 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <Routes>
-        <Route path="users" element={<UserManagement />} />
-        <Route path="account" element={<Account />} />
+        <Route path="users/*" element={<UserManagement />} />
+        <Route path="account/*" element={<Account />} />
         <Route
-          path="/"
+          path="/*"
           element={
             <>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
