@@ -1,36 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { FileText, Users, BarChart, Eye, Plus, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Label } from "@/components/ui/label";
-
-interface Subject {
-  id: string;
-  name: string;
-  questionCount: number;
-  participants: number;
-  successRate: number;
-}
+import SubjectCard from "@/components/qcm/SubjectCard";
+import SubjectDialog from "@/components/qcm/SubjectDialog";
+import DeleteSubjectDialog from "@/components/qcm/DeleteSubjectDialog";
+import { Subject } from "@/types/qcm";
 
 const QCMSubjects = () => {
   const navigate = useNavigate();
@@ -44,22 +20,15 @@ const QCMSubjects = () => {
     { id: "international", name: "القانون الدولي", questionCount: 50, participants: 0, successRate: 0 },
   ]);
 
-  // Add Subject Modal State
+  // Dialog states
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [newSubjectName, setNewSubjectName] = useState("");
-  const [questionCount, setQuestionCount] = useState("50");
-
-  // Edit Subject Modal State
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
-  const [editedName, setEditedName] = useState("");
-
-  // Delete Subject Modal State
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
   const [deletingSubject, setDeletingSubject] = useState<Subject | null>(null);
 
-  const handleAddSubject = () => {
-    if (!newSubjectName.trim()) {
+  const handleAddSubject = ({ name, questionCount }: { name: string; questionCount: string }) => {
+    if (!name.trim()) {
       toast({
         title: "خطأ",
         description: "يرجى إدخال اسم المادة",
@@ -68,9 +37,9 @@ const QCMSubjects = () => {
     }
 
     const newSubject: Subject = {
-      id: newSubjectName.toLowerCase().replace(/\s+/g, '-'),
-      name: newSubjectName,
-      questionCount: parseInt(questionCount),
+      id: name.toLowerCase().replace(/\s+/g, '-'),
+      name,
+      questionCount: parseInt(questionCount || "50"),
       participants: 0,
       successRate: 0,
     };
@@ -82,22 +51,14 @@ const QCMSubjects = () => {
     });
 
     setIsAddDialogOpen(false);
-    setNewSubjectName("");
-    setQuestionCount("50");
   };
 
-  const handleEditClick = (subject: Subject) => {
-    setEditingSubject(subject);
-    setEditedName(subject.name);
-    setIsEditDialogOpen(true);
-  };
-
-  const handleEditConfirm = () => {
-    if (!editedName.trim() || !editingSubject) return;
+  const handleEditSubject = ({ name }: { name: string }) => {
+    if (!name.trim() || !editingSubject) return;
 
     setSubjects(subjects.map(subject =>
       subject.id === editingSubject.id
-        ? { ...subject, name: editedName }
+        ? { ...subject, name }
         : subject
     ));
 
@@ -108,15 +69,9 @@ const QCMSubjects = () => {
 
     setIsEditDialogOpen(false);
     setEditingSubject(null);
-    setEditedName("");
   };
 
-  const handleDeleteClick = (subject: Subject) => {
-    setDeletingSubject(subject);
-    setIsDeleteDialogOpen(true);
-  };
-
-  const handleDeleteConfirm = () => {
+  const handleDeleteSubject = () => {
     if (!deletingSubject) return;
 
     setSubjects(subjects.filter(subject => subject.id !== deletingSubject.id));
@@ -141,135 +96,44 @@ const QCMSubjects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {subjects.map((subject) => (
-          <Card key={subject.id} className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle>{subject.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <FileText className="w-4 h-4" />
-                  {subject.questionCount} سؤال
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  {subject.participants} مشارك
-                </div>
-                <div className="flex items-center gap-2">
-                  <BarChart className="w-4 h-4" />
-                  {subject.successRate}%
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  className="flex-1"
-                  onClick={() => navigate(`/dashboard/qcm/exam/subject-${subject.id}`)}
-                >
-                  <Eye className="w-4 h-4 mr-2" />
-                  عرض الأسئلة
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleEditClick(subject)}
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  onClick={() => handleDeleteClick(subject)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <SubjectCard
+            key={subject.id}
+            subject={subject}
+            onEdit={(subject) => {
+              setEditingSubject(subject);
+              setIsEditDialogOpen(true);
+            }}
+            onDelete={(subject) => {
+              setDeletingSubject(subject);
+              setIsDeleteDialogOpen(true);
+            }}
+            onViewQuestions={(subjectId) => 
+              navigate(`/dashboard/qcm/exam/subject-${subjectId}`)
+            }
+          />
         ))}
       </div>
 
-      {/* Add Subject Dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>إضافة مادة جديدة</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="subjectName">اسم المادة</Label>
-              <Input
-                id="subjectName"
-                value={newSubjectName}
-                onChange={(e) => setNewSubjectName(e.target.value)}
-                placeholder="أدخل اسم المادة"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="questionCount">عدد الأسئلة</Label>
-              <Input
-                id="questionCount"
-                type="number"
-                value={questionCount}
-                onChange={(e) => setQuestionCount(e.target.value)}
-                min="1"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-              إلغاء
-            </Button>
-            <Button onClick={handleAddSubject}>حفظ</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <SubjectDialog
+        open={isAddDialogOpen}
+        onOpenChange={setIsAddDialogOpen}
+        mode="add"
+        onSave={handleAddSubject}
+      />
 
-      {/* Edit Subject Dialog */}
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>تعديل المادة</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="editName">اسم المادة</Label>
-              <Input
-                id="editName"
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-                placeholder="أدخل اسم المادة"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
-              إلغاء
-            </Button>
-            <Button onClick={handleEditConfirm}>حفظ التغييرات</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <SubjectDialog
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        mode="edit"
+        subject={editingSubject ?? undefined}
+        onSave={handleEditSubject}
+      />
 
-      {/* Delete Confirmation Dialog */}
-      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>تأكيد الحذف</AlertDialogTitle>
-            <AlertDialogDescription>
-              هل أنت متأكد من حذف هذه المادة؟ لا يمكن التراجع عن هذا الإجراء.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>إلغاء</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDeleteConfirm}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              حذف
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <DeleteSubjectDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+        onConfirm={handleDeleteSubject}
+      />
     </div>
   );
 };
