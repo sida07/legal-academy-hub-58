@@ -18,6 +18,9 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { Routes, Route } from "react-router-dom";
+import DashboardLayout from "@/components/dashboard/DashboardLayout";
+import UserManagement from "@/components/dashboard/users/UserManagement";
 
 const userActivityData = [
   { name: "يناير", value: 400 },
@@ -36,85 +39,91 @@ const courseProgressData = [
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gray-50" dir="rtl">
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-8">لوحة التحكم</h1>
+    <DashboardLayout>
+      <Routes>
+        <Route path="/users" element={<UserManagement />} />
+        {/* Add other dashboard routes here */}
+      </Routes>
+      <div className="min-h-screen bg-gray-50" dir="rtl">
+        <div className="container mx-auto p-6">
+          <h1 className="text-3xl font-bold mb-8">لوحة التحكم</h1>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard
-            title="إجمالي المستخدمين"
-            value="1,234"
-            trend="+12%"
-            icon="users"
-          />
-          <StatCard
-            title="الدورات النشطة"
-            value="45"
-            trend="+5%"
-            icon="graduationCap"
-          />
-          <StatCard
-            title="الاختبارات المجراة"
-            value="867"
-            trend="+8%"
-            icon="fileCheck"
-          />
-          <StatCard
-            title="نسبة النجاح"
-            value="78%"
-            trend="+3%"
-            icon="clipboardCheck"
-          />
-        </div>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatCard
+              title="إجمالي المستخدمين"
+              value="1,234"
+              trend="+12%"
+              icon="users"
+            />
+            <StatCard
+              title="الدورات النشطة"
+              value="45"
+              trend="+5%"
+              icon="graduationCap"
+            />
+            <StatCard
+              title="الاختبارات المجراة"
+              value="867"
+              trend="+8%"
+              icon="fileCheck"
+            />
+            <StatCard
+              title="نسبة النجاح"
+              value="78%"
+              trend="+3%"
+              icon="clipboardCheck"
+            />
+          </div>
 
-        {/* Charts Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {/* Charts Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">معدل التسجيلات الشهرية</h3>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={userActivityData}>
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke="#1E40AF"
+                      strokeWidth={2}
+                    />
+                    <Tooltip />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h3 className="text-lg font-semibold mb-4">نسبة التقدم في الدورات</h3>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={courseProgressData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      fill="#1E40AF"
+                    />
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          </div>
+
+          {/* Notifications Section */}
           <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">معدل التسجيلات الشهرية</h3>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={userActivityData}>
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#1E40AF"
-                    strokeWidth={2}
-                  />
-                  <Tooltip />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold mb-4">نسبة التقدم في الدورات</h3>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={courseProgressData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#1E40AF"
-                  />
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+            <h3 className="text-lg font-semibold mb-4">التنبيهات الإدارية</h3>
+            <NotificationList />
           </Card>
         </div>
-
-        {/* Notifications Section */}
-        <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">التنبيهات الإدارية</h3>
-          <NotificationList />
-        </Card>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
