@@ -10,6 +10,7 @@ import {
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "@/components/dashboard/DashboardLayout";
 import UserManagement from "@/components/dashboard/users/UserManagement";
+import Account from "./dashboard/Account";
 import StatCard from "@/components/dashboard/StatCard";
 import { Bell } from "lucide-react";
 
@@ -33,6 +34,7 @@ const Dashboard = () => {
     <DashboardLayout>
       <Routes>
         <Route path="users" element={<UserManagement />} />
+        <Route path="account" element={<Account />} />
         <Route
           path="/"
           element={
