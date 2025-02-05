@@ -105,7 +105,7 @@ const Course = () => {
 
           {/* Course Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="p-6">
+            <Card className="p-6 sticky top-24">
               <div className="text-2xl font-bold mb-4">{courseData.price}</div>
               <Button className="w-full mb-4">سجل الآن</Button>
               
