@@ -1,3 +1,5 @@
+export type QCMCategory = "lawyer" | "other" | "all";
+
 export interface Subject {
   id: string;
   name: string;
@@ -5,8 +7,6 @@ export interface Subject {
   participants: number;
   successRate: number;
 }
-
-export type QCMCategory = "lawyer" | "other" | "all";
 
 export interface QCMTest {
   id: string;

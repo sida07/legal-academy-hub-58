@@ -5,6 +5,11 @@ import QCMList from "./QCMList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Clock } from "lucide-react";
 
+interface QCMHeaderProps {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isOpen: boolean) => void;
+}
+
 const QCMLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

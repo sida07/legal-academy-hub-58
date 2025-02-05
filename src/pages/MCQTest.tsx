@@ -27,7 +27,7 @@ const MCQTest = () => {
 
   useEffect(() => {
     // This will be replaced with an API call to fetch questions
-    const mockQuestions = Array.from({ length: 50 }, (_, index) => ({
+    const mockQuestions: Question[] = Array.from({ length: 50 }, (_, index) => ({
       id: index + 1,
       text: `سؤال رقم ${index + 1} من ${testName}`,
       options: [
@@ -37,7 +37,7 @@ const MCQTest = () => {
         `الخيار الرابع للسؤال ${index + 1}`
       ],
       correctAnswer: Math.floor(Math.random() * 4),
-      category: "all",
+      category: "lawyer",
       subject: testSubject,
       year: testYear
     }));

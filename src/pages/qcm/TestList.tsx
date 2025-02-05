@@ -13,6 +13,7 @@ interface YearlyTest {
   questionsCount: number;
   duration: number;
   difficulty: "سهل" | "متوسط" | "صعب";
+  category: QCMCategory;
 }
 
 // Generate tests for years 2000-2024
@@ -27,6 +28,7 @@ const generateTests = () => {
       questionsCount: 50,
       duration: 60,
       difficulty: difficulties[Math.floor(Math.random() * 3)],
+      category: "lawyer" // Default category for generated tests
     });
   }
   return tests;
