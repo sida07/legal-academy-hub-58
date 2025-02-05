@@ -1,4 +1,4 @@
-import { AdminSidebar } from "./AdminSidebar";
+import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
