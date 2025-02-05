@@ -1,9 +1,15 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Calendar, Users, Trophy, BookOpen, GraduationCap, BarChart3 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 const QCMList = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const years = [
     { id: 1, year: "2024", exams: 8, users: 120, avgScore: 85 },
     { id: 2, year: "2023", exams: 12, users: 250, avgScore: 78 },
@@ -16,6 +22,21 @@ const QCMList = () => {
     { id: 2, name: "القانون الجنائي", icon: GraduationCap, progress: 60 },
     { id: 3, name: "القانون التجاري", icon: BarChart3, progress: 45 },
   ];
+
+  const handleStartTest = (subjectId: number, subjectName: string) => {
+    toast({
+      title: "جاري تحميل الاختبار",
+      description: `تحضير اختبار ${subjectName}`,
+    });
+    
+    // Navigate to the MCQ test page with the subject information
+    navigate(`/mcq-test`, {
+      state: { 
+        subjectId,
+        subjectName
+      }
+    });
+  };
 
   return (
     <>
@@ -88,7 +109,10 @@ const QCMList = () => {
                           <Icon className="h-8 w-8 text-primary" />
                         </div>
                       </div>
-                      <Button className="w-full bg-primary hover:bg-primary-dark transition-colors">
+                      <Button 
+                        onClick={() => handleStartTest(subject.id, subject.name)}
+                        className="w-full bg-primary hover:bg-primary-dark transition-colors"
+                      >
                         بدء الاختبار
                       </Button>
                     </div>
