@@ -56,7 +56,7 @@ export function AdminSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar className="bg-white shadow-lg h-screen w-64 fixed right-0 top-0 text-right">
+    <Sidebar className="bg-white shadow-lg h-screen w-64 fixed left-0 top-0 text-right" side="left">
       <SidebarContent className="p-4">
         <SidebarGroup>
           <SidebarGroupLabel className="text-lg font-semibold text-gray-700 mb-4">
