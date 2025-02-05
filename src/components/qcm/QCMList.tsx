@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -12,7 +11,7 @@ const QCMList = () => {
 
   const years = [
     { id: 1, year: "اختبرات ألسنة الولي", exams: 8, users: 120, avgScore: 85 },
-    { id: 2, year: "2023", exams: 12, users: 250, avgScore: 78 }
+    { id: 2, year: "اختبارات ألسنة الثانية", exams: 12, users: 250, avgScore: 78 }
   ];
 
   const subjects = [
