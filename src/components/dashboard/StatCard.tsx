@@ -1,4 +1,3 @@
-
 import { LucideIcon, Users, GraduationCap, FileCheck, MessageSquare, TrendingUp, TrendingDown } from "lucide-react";
 
 interface StatCardProps {
@@ -22,7 +21,7 @@ const StatCard = ({ title, value, trend, trendDirection, icon }: StatCardProps) 
   const trendColorClass = trendDirection === "up" ? "text-green-500" : "text-red-500";
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow">
+    <div className="bg-white p-6 rounded-lg shadow animate-fade-in">
       <div className="flex justify-between items-start mb-4">
         <Icon className="h-6 w-6 text-primary" />
         <div className="text-right">

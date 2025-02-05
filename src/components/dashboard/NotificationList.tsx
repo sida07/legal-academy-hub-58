@@ -1,4 +1,3 @@
-
 import { Bell, MessageSquare, AlertTriangle } from "lucide-react";
 
 const notifications = [
@@ -31,7 +30,7 @@ const NotificationList = () => {
       {notifications.map((notification) => (
         <div
           key={notification.id}
-          className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg"
+          className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg animate-fade-in"
         >
           <div className="bg-primary/10 p-2 rounded">
             <notification.icon className="h-5 w-5 text-primary" />

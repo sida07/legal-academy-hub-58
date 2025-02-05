@@ -1,149 +1,123 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Trophy, MessageSquare, Users, Star, TrendingUp } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import {
+  Users,
+  GraduationCap,
+  FileCheck,
+  TrendingUp,
+  Bell,
+  AlertTriangle,
+} from "lucide-react";
+import StatCard from "@/components/dashboard/StatCard";
+import NotificationList from "@/components/dashboard/NotificationList";
+import {
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+
+const userActivityData = [
+  { name: "يناير", value: 400 },
+  { name: "فبراير", value: 300 },
+  { name: "مارس", value: 600 },
+  { name: "أبريل", value: 800 },
+  { name: "مايو", value: 500 },
+  { name: "يونيو", value: 700 },
+];
+
+const courseProgressData = [
+  { name: "مكتمل", value: 60 },
+  { name: "قيد التقدم", value: 30 },
+  { name: "لم يبدأ", value: 10 },
+];
 
 const Dashboard = () => {
-  // Stats data
-  const stats = [
-    { title: "إجمالي المستخدمين", value: "1,234", icon: Users },
-    { title: "الدورات النشطة", value: "45", icon: BookOpen },
-    { title: "الاختبارات المكتملة", value: "892", icon: Trophy },
-    { title: "المناقشات النشطة", value: "156", icon: MessageSquare },
-  ];
-
-  // Featured courses data
-  const featuredCourses = [
-    {
-      title: "القانون المدني",
-      description: "دورة شاملة في القانون المدني والإجراءات",
-      students: 584,
-      rating: 4.8,
-    },
-    {
-      title: "القانون الجنائي",
-      description: "تحضير متكامل للقانون الجنائي وإجراءاته",
-      students: 423,
-      rating: 4.9,
-    },
-  ];
-
-  // Recent forum discussions
-  const recentDiscussions = [
-    {
-      title: "تفسير المادة 158 من القانون المدني",
-      author: "أحمد محمد",
-      replies: 12,
-      date: "منذ ساعتين",
-    },
-    {
-      title: "إجراءات التقاضي في المحاكم الإدارية",
-      author: "سارة أحمد",
-      replies: 8,
-      date: "منذ 3 ساعات",
-    },
-  ];
-
   return (
-    <div className="container mx-auto p-6" dir="rtl">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary to-primary-dark text-white rounded-2xl p-8 mb-8 animate-fade-in">
-        <h1 className="text-4xl font-bold mb-4">مرحباً بك في لوحة التحكم</h1>
-        <p className="text-xl opacity-90 mb-6">اكتشف آخر التحديثات والإحصائيات الخاصة بمنصتك التعليمية</p>
-        <Button variant="secondary" className="hover:bg-white hover:text-primary">
-          استعرض التقارير
-        </Button>
-      </div>
+    <div className="min-h-screen bg-gray-50" dir="rtl">
+      <div className="container mx-auto p-6">
+        <h1 className="text-3xl font-bold mb-8">لوحة التحكم</h1>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {stats.map((stat, index) => (
-          <Card key={index} className="animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatCard
+            title="إجمالي المستخدمين"
+            value="1,234"
+            trend="+12%"
+            trendDirection="up"
+            icon="users"
+          />
+          <StatCard
+            title="الدورات النشطة"
+            value="45"
+            trend="+5%"
+            trendDirection="up"
+            icon="graduationCap"
+          />
+          <StatCard
+            title="الاختبارات المجراة"
+            value="867"
+            trend="+8%"
+            trendDirection="up"
+            icon="fileCheck"
+          />
+          <StatCard
+            title="نسبة النجاح"
+            value="78%"
+            trend="+3%"
+            trendDirection="up"
+            icon="messageSquare"
+          />
+        </div>
 
-      {/* Featured Courses Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <Card className="col-span-full">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold flex items-center gap-2">
-              <BookOpen className="h-5 w-5" />
-              الدورات المميزة
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {featuredCourses.map((course, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                  <div>
-                    <h3 className="font-semibold">{course.title}</h3>
-                    <p className="text-sm text-muted-foreground">{course.description}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="flex items-center gap-1">
-                      <Star className="h-4 w-4 text-yellow-400" />
-                      <span>{course.rating}</span>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {course.students} طالب
-                    </div>
-                  </div>
-                </div>
-              ))}
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">معدل التسجيلات الشهرية</h3>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={userActivityData}>
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#1E40AF"
+                    strokeWidth={2}
+                  />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-          </CardContent>
+          </Card>
+
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">نسبة التقدم في الدورات</h3>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={courseProgressData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#1E40AF"
+                  />
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+        </div>
+
+        {/* Notifications Section */}
+        <Card className="p-6">
+          <h3 className="text-lg font-semibold mb-4">التنبيهات الإدارية</h3>
+          <NotificationList />
         </Card>
       </div>
-
-      {/* Recent Discussions */}
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="text-xl font-bold flex items-center gap-2">
-            <MessageSquare className="h-5 w-5" />
-            آخر المناقشات
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentDiscussions.map((discussion, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                <div>
-                  <h3 className="font-semibold">{discussion.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    بواسطة {discussion.author} • {discussion.date}
-                  </p>
-                </div>
-                <div className="text-sm">
-                  <span className="text-primary">{discussion.replies} رد</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Performance Analytics */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl font-bold flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            تحليلات الأداء
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[200px] flex items-center justify-center text-muted-foreground">
-            رسم بياني للأداء سيتم إضافته هنا
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
