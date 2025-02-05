@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Menu, X, ChevronDown, Search, Bell, User } from "lucide-react";
 import { Button } from "./ui/button";
@@ -20,6 +21,7 @@ const Navbar = () => {
             <Link to="/" className="text-gray-700 hover:text-primary transition-colors font-medium">الرئيسية</Link>
             <Link to="/courses" className="text-gray-700 hover:text-primary transition-colors font-medium">الدورات</Link>
             <Link to="/exams" className="text-gray-700 hover:text-primary transition-colors font-medium">الاختبارات</Link>
+            <Link to="/blog" className="text-gray-700 hover:text-primary transition-colors font-medium">المدونة</Link>
             <Link to="/forum" className="text-gray-700 hover:text-primary transition-colors font-medium">المنتدى</Link>
           </div>
 
@@ -68,6 +70,12 @@ const Navbar = () => {
               className="block px-3 py-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
             >
               الاختبارات
+            </Link>
+            <Link 
+              to="/blog" 
+              className="block px-3 py-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
+            >
+              المدونة
             </Link>
             <Link 
               to="/forum" 

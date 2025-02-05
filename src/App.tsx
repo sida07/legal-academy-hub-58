@@ -18,6 +18,8 @@ import Exams from "./pages/dashboard/Exams";
 import Account from "./pages/dashboard/Account";
 import Courses from "./pages/dashboard/Courses";
 import Settings from "./pages/dashboard/Settings";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +46,8 @@ const App = () => (
           <Route path="/course/:id" element={<Course />} />
           <Route path="/mcq-test" element={<MCQTest />} />
           <Route path="/qcm" element={<QCM />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
