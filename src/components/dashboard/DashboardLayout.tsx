@@ -9,7 +9,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
-    <div className="min-h-screen bg-gray-50 text-right flex" dir="rtl">
+    <div className="min-h-screen bg-gray-50 text-right flex flex-row-reverse" dir="rtl">
       <SidebarProvider>
         <AdminSidebar />
         <div className="flex-1 p-6">
