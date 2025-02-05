@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Table, TableHead, TableRow, TableCell, TableBody } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { Users, Trash2, Ban } from "lucide-react";
+import { UsersIcon, Trash2, Ban } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface User {
@@ -65,7 +65,7 @@ export default function Users() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
-        <Users className="h-6 w-6" /> إدارة المستخدمين
+        <UsersIcon className="h-6 w-6" /> إدارة المستخدمين
       </h1>
       <div className="flex justify-between mb-4">
         <Input
