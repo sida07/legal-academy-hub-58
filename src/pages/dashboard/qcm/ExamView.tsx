@@ -12,6 +12,24 @@ import {
 } from "@/components/ui/table";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 interface Question {
   id: number;
@@ -30,8 +48,13 @@ const ExamView = () => {
       options: ["خيار 1", "خيار 2", "خيار 3"],
       correctAnswer: 0,
     },
-    // More mock questions can be added here
   ]);
+
+  // State for modals
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
+  const [editedText, setEditedText] = useState("");
 
   const handleAddQuestion = () => {
     toast({
@@ -40,18 +63,39 @@ const ExamView = () => {
     });
   };
 
-  const handleEditQuestion = (questionId: number) => {
-    toast({
-      title: "تعديل السؤال",
-      description: "سيتم إضافة هذه الميزة قريباً",
-    });
+  const handleEditClick = (question: Question) => {
+    setSelectedQuestion(question);
+    setEditedText(question.text);
+    setIsEditDialogOpen(true);
   };
 
-  const handleDeleteQuestion = (questionId: number) => {
-    toast({
-      title: "حذف السؤال",
-      description: "سيتم إضافة هذه الميزة قريباً",
-    });
+  const handleEditConfirm = () => {
+    if (selectedQuestion && editedText.trim()) {
+      setQuestions(questions.map(q => 
+        q.id === selectedQuestion.id ? { ...q, text: editedText } : q
+      ));
+      setIsEditDialogOpen(false);
+      toast({
+        title: "تم التعديل",
+        description: "تم تعديل السؤال بنجاح",
+      });
+    }
+  };
+
+  const handleDeleteClick = (question: Question) => {
+    setSelectedQuestion(question);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedQuestion) {
+      setQuestions(questions.filter(q => q.id !== selectedQuestion.id));
+      setIsDeleteDialogOpen(false);
+      toast({
+        title: "تم الحذف",
+        description: "تم حذف السؤال بنجاح",
+      });
+    }
   };
 
   return (
@@ -89,14 +133,14 @@ const ExamView = () => {
                       <Button
                         variant="outline"
                         size="icon"
-                        onClick={() => handleEditQuestion(question.id)}
+                        onClick={() => handleEditClick(question)}
                       >
                         <Pencil className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="destructive"
                         size="icon"
-                        onClick={() => handleDeleteQuestion(question.id)}
+                        onClick={() => handleDeleteClick(question)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -108,6 +152,50 @@ const ExamView = () => {
           </Table>
         </CardContent>
       </Card>
+
+      {/* Edit Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>تعديل السؤال</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <Input
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              placeholder="أدخل نص السؤال الجديد"
+              className="w-full"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              إلغاء
+            </Button>
+            <Button onClick={handleEditConfirm}>حفظ التغييرات</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>تأكيد الحذف</AlertDialogTitle>
+            <AlertDialogDescription>
+              هل أنت متأكد من حذف هذا السؤال؟ لا يمكن التراجع عن هذا الإجراء.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>إلغاء</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              حذف
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
