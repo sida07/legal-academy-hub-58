@@ -3,9 +3,29 @@ import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { MessageSquare, Share, Activity, TrendingUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 
 const BlogPost = () => {
   const { id } = useParams();
+  const { toast } = useToast();
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([
+    {
+      id: 1,
+      author: "محمد أحمد",
+      content: "مقال رائع ومفيد جداً",
+      date: "2024-03-18",
+    },
+    {
+      id: 2,
+      author: "سارة علي",
+      content: "شكراً على هذه المعلومات القيمة",
+      date: "2024-03-18",
+    }
+  ]);
   
   // Mock data for a single blog post
   const post = {
@@ -29,6 +49,48 @@ const BlogPost = () => {
     category: "القانون المدني",
     views: 1234,
     comments: 23
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.share({
+        title: post.title,
+        text: post.content.substring(0, 100) + "...",
+        url: window.location.href,
+      });
+    } catch (err) {
+      toast({
+        title: "نسخ الرابط",
+        description: "تم نسخ رابط المقال إلى الحافظة",
+      });
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
+  const handleAddComment = () => {
+    if (!comment.trim()) {
+      toast({
+        title: "تنبيه",
+        description: "الرجاء كتابة تعليق قبل الإرسال",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newComment = {
+      id: comments.length + 1,
+      author: "المستخدم",
+      content: comment,
+      date: new Date().toISOString().split('T')[0],
+    };
+
+    setComments([newComment, ...comments]);
+    setComment("");
+    
+    toast({
+      title: "تم إضافة التعليق",
+      description: "شكراً على مشاركتك",
+    });
   };
 
   return (
@@ -104,14 +166,63 @@ const BlogPost = () => {
           {/* Actions */}
           <div className="flex justify-between items-center pt-6 border-t">
             <div className="flex space-x-4 rtl:space-x-reverse">
-              <Button variant="outline" className="flex items-center hover:bg-primary/5">
+              <Button 
+                variant="outline" 
+                className="flex items-center hover:bg-primary/5"
+                onClick={() => document.getElementById('comments-section')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 <MessageSquare className="h-4 w-4 ml-2" />
-                التعليقات
+                التعليقات ({comments.length})
               </Button>
-              <Button variant="outline" className="flex items-center hover:bg-primary/5">
+              <Button 
+                variant="outline" 
+                className="flex items-center hover:bg-primary/5"
+                onClick={handleShare}
+              >
                 <Share className="h-4 w-4 ml-2" />
                 مشاركة
               </Button>
+            </div>
+          </div>
+
+          {/* Comments Section */}
+          <div id="comments-section" className="space-y-6 pt-8">
+            <h2 className="text-2xl font-bold">التعليقات</h2>
+            
+            {/* Add Comment */}
+            <div className="space-y-4 bg-white p-6 rounded-lg shadow-sm">
+              <Textarea
+                placeholder="اكتب تعليقك هنا..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                className="min-h-[100px]"
+              />
+              <Button 
+                className="w-full sm:w-auto"
+                onClick={handleAddComment}
+              >
+                إضافة تعليق
+              </Button>
+            </div>
+
+            {/* Comments List */}
+            <div className="space-y-4">
+              {comments.map((comment) => (
+                <Card key={comment.id} className="p-4 bg-white">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                          {comment.author.charAt(0)}
+                        </span>
+                        <span className="font-medium">{comment.author}</span>
+                      </div>
+                      <span className="text-sm text-gray-500">{comment.date}</span>
+                    </div>
+                    <p className="text-gray-700">{comment.content}</p>
+                  </div>
+                </Card>
+              ))}
             </div>
           </div>
         </article>
@@ -121,3 +232,4 @@ const BlogPost = () => {
 };
 
 export default BlogPost;
+
