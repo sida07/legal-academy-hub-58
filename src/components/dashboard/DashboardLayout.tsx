@@ -1,9 +1,30 @@
-
 import { ArrowLeft, Bell, Search, Settings, User } from "lucide-react";
 import StatCard from "./StatCard";
 import NotificationList from "./NotificationList";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Card } from "../ui/card";
+import {
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
+
+const userActivityData = [
+  { name: "يناير", value: 400 },
+  { name: "فبراير", value: 300 },
+  { name: "مارس", value: 600 },
+  { name: "أبريل", value: 800 },
+];
+
+const userDistributionData = [
+  { name: "طلاب جدد", value: 400 },
+  { name: "طلاب نشطون", value: 300 },
+  { name: "طلاب متخرجون", value: 300 },
+];
 
 const DashboardLayout = () => {
   return (
@@ -74,21 +95,48 @@ const DashboardLayout = () => {
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow">
+          <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4">توزيع المستخدمين</h3>
-            {/* Add Chart Component Here */}
-          </div>
-          <div className="bg-white p-6 rounded-lg shadow">
-            <h3 className="text-lg font-semibold mb-4">آخر نشاط</h3>
-            {/* Add Activity Chart Component Here */}
-          </div>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={userDistributionData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#1E40AF"
+                  />
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
+          <Card className="p-6">
+            <h3 className="text-lg font-semibold mb-4">نشاط المستخدمين</h3>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={userActivityData}>
+                  <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#1E40AF"
+                    strokeWidth={2}
+                  />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </Card>
         </div>
 
         {/* Notifications Section */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">آخر التنبيهات</h3>
           <NotificationList />
-        </div>
+        </Card>
       </main>
     </div>
   );
