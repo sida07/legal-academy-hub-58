@@ -5,28 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Timer, Book, Award, CheckCircle2, XCircle, StopCircle } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-
-interface Question {
-  id: number;
-  text: string;
-  options: string[];
-  correctAnswer: number;
-}
-
-// This will be replaced with actual data from the admin panel
-const generateYearlyQuestions = (year: string): Question[] => {
-  return Array.from({ length: 50 }, (_, index) => ({
-    id: index + 1,
-    text: `سؤال رقم ${index + 1} من اختبار سنة ${year}`,
-    options: [
-      `الخيار الأول للسؤال ${index + 1}`,
-      `الخيار الثاني للسؤال ${index + 1}`,
-      `الخيار الثالث للسؤال ${index + 1}`,
-      `الخيار الرابع للسؤال ${index + 1}`
-    ],
-    correctAnswer: Math.floor(Math.random() * 4)
-  }));
-};
+import { Question } from "@/types/qcm";
 
 const MCQTest = () => {
   const navigate = useNavigate();
@@ -39,14 +18,31 @@ const MCQTest = () => {
   const [timeLeft, setTimeLeft] = useState(3600); // 60 minutes in seconds
   const [questions, setQuestions] = useState<Question[]>([]);
 
-  const testYear = location.state?.testYear || "2024";
-  const testName = location.state?.testName || `اختبار سنة ${testYear}`;
+  const testYear = location.state?.testYear;
+  const testSubject = location.state?.testSubject;
+  const testName = location.state?.testName || 
+    (testYear ? `اختبار سنة ${testYear}` : 
+     testSubject ? `اختبار ${testSubject}` : 
+     "اختبار تجريبي");
 
   useEffect(() => {
-    // This will be replaced with an API call to fetch questions from the admin panel
-    const yearlyQuestions = generateYearlyQuestions(testYear);
-    setQuestions(yearlyQuestions);
-  }, [testYear]);
+    // This will be replaced with an API call to fetch questions
+    const mockQuestions = Array.from({ length: 50 }, (_, index) => ({
+      id: index + 1,
+      text: `سؤال رقم ${index + 1} من ${testName}`,
+      options: [
+        `الخيار الأول للسؤال ${index + 1}`,
+        `الخيار الثاني للسؤال ${index + 1}`,
+        `الخيار الثالث للسؤال ${index + 1}`,
+        `الخيار الرابع للسؤال ${index + 1}`
+      ],
+      correctAnswer: Math.floor(Math.random() * 4),
+      category: "all",
+      subject: testSubject,
+      year: testYear
+    }));
+    setQuestions(mockQuestions);
+  }, [testYear, testSubject, testName]);
 
   useEffect(() => {
     const timer = setInterval(() => {

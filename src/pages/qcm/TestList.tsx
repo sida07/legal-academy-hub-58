@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Search, Clock, Gauge } from "lucide-react";
+import { QCMCategory } from "@/types/qcm";
 
 interface YearlyTest {
   id: number;
@@ -33,13 +34,18 @@ const generateTests = () => {
 
 const mockTests = generateTests();
 
-const TestList = () => {
+interface TestListProps {
+  category: QCMCategory;
+}
+
+const TestList = ({ category }: TestListProps) => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [currentTab, setCurrentTab] = useState<"lawyer" | "other">("lawyer");
 
   const filteredTests = mockTests.filter(
-    test => test.year.includes(searchTerm)
+    test => test.year.includes(searchTerm) && 
+    (category === "all" || test.category === category)
   );
 
   const handleStartTest = (year: string) => {
