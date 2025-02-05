@@ -9,6 +9,9 @@ import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Forum from "./pages/Forum";
+import CategoryView from "./pages/forum/CategoryView";
+import TopicView from "./pages/forum/TopicView";
+import NewTopic from "./pages/forum/NewTopic";
 import Profile from "./pages/Profile";
 import Course from "./pages/Course";
 import MCQTest from "./pages/MCQTest";
@@ -41,7 +44,12 @@ const App = () => (
               <Route path="account" element={<Account />} />
             </Route>
           </Route>
-          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum">
+            <Route index element={<Forum />} />
+            <Route path="category/:categoryId" element={<CategoryView />} />
+            <Route path="topic/:topicId" element={<TopicView />} />
+            <Route path="new-topic" element={<NewTopic />} />
+          </Route>
           <Route path="/profile" element={<Profile />} />
           <Route path="/course/:id" element={<Course />} />
           <Route path="/mcq-test" element={<MCQTest />} />
