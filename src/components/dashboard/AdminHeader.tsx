@@ -2,10 +2,7 @@
 import { useState } from "react";
 import { 
   Settings, 
-  Users, 
-  BookOpen, 
-  ClipboardList,
-  UserCheck,
+  UserCheck, 
   Bell, 
   Search,
   Moon,
@@ -13,7 +10,6 @@ import {
   LogOut,
   Lock,
   Shield,
-  FileText
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -68,33 +64,6 @@ const AdminHeader = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* Navigation buttons */}
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" className="relative group">
-                <Users className="h-5 w-5" />
-                <span className="sr-only">إدارة المستخدمين</span>
-                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                  إدارة المستخدمين
-                </span>
-              </Button>
-
-              <Button variant="ghost" size="icon" className="relative group">
-                <BookOpen className="h-5 w-5" />
-                <span className="sr-only">إدارة الدورات</span>
-                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                  إدارة الدورات
-                </span>
-              </Button>
-
-              <Button variant="ghost" size="icon" className="relative group">
-                <ClipboardList className="h-5 w-5" />
-                <span className="sr-only">إدارة الاختبارات</span>
-                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                  إدارة الاختبارات
-                </span>
-              </Button>
-            </div>
 
             {/* Settings Dropdown */}
             <DropdownMenu>
