@@ -29,6 +29,9 @@ const mockTopic = {
   ]
 };
 
+// Mock authentication state - replace with actual auth logic later
+const isAuthenticated = false;
+
 const TopicView = () => {
   const { topicId } = useParams();
   const [replyContent, setReplyContent] = useState("");
@@ -55,8 +58,16 @@ const TopicView = () => {
   };
 
   const handleReply = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "تنبيه",
+        description: "يجب تسجيل الدخول أولاً للتعليق",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (replyContent.trim()) {
-      // Add reply logic here
       toast({
         title: "تم إضافة الرد",
         description: "تم إضافة ردك بنجاح",
@@ -78,7 +89,6 @@ const TopicView = () => {
           <span className="text-blue-600">{mockTopic.title}</span>
         </div>
 
-        {/* Topic Content */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6 animate-fade-in">
           <div className="flex items-start gap-4 mb-6">
             <img
@@ -109,7 +119,6 @@ const TopicView = () => {
           </div>
         </div>
 
-        {/* Replies */}
         <div className="space-y-6 mb-6">
           <h2 className="text-xl font-semibold">الردود</h2>
           {mockTopic.replies.map((reply) => (
@@ -133,27 +142,37 @@ const TopicView = () => {
           ))}
         </div>
 
-        {/* Reply Form */}
-        <div className="bg-white rounded-lg shadow-lg p-6 animate-fade-in">
-          <h3 className="text-lg font-semibold mb-4">أضف رداً</h3>
-          <div className="space-y-4">
-            <Textarea
-              placeholder="اكتب ردك هنا..."
-              value={replyContent}
-              onChange={(e) => setReplyContent(e.target.value)}
-              className="min-h-[120px]"
-            />
-            <div className="flex justify-end">
-              <Button
-                onClick={handleReply}
-                className="bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <Send className="h-4 w-4 ml-2" />
-                إرسال الرد
-              </Button>
+        {isAuthenticated ? (
+          <div className="bg-white rounded-lg shadow-lg p-6 animate-fade-in">
+            <h3 className="text-lg font-semibold mb-4">أضف رداً</h3>
+            <div className="space-y-4">
+              <Textarea
+                placeholder="اكتب ردك هنا..."
+                value={replyContent}
+                onChange={(e) => setReplyContent(e.target.value)}
+                className="min-h-[120px]"
+              />
+              <div className="flex justify-end">
+                <Button
+                  onClick={handleReply}
+                  className="bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Send className="h-4 w-4 ml-2" />
+                  إرسال الرد
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
+            <p className="text-gray-600 mb-4">يجب تسجيل الدخول للتعليق على هذا الموضوع</p>
+            <Link to="/login">
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                تسجيل الدخول
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
