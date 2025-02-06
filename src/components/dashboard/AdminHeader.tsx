@@ -80,14 +80,6 @@ const AdminHeader = () => {
               </Button>
 
               <Button variant="ghost" size="icon" className="relative group">
-                <FileText className="h-5 w-5" />
-                <span className="sr-only">إدارة المدونة</span>
-                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                  إدارة المدونة
-                </span>
-              </Button>
-
-              <Button variant="ghost" size="icon" className="relative group">
                 <BookOpen className="h-5 w-5" />
                 <span className="sr-only">إدارة الدورات</span>
                 <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
