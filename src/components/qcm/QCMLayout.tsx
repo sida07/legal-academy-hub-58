@@ -1,44 +1,70 @@
+
 import { useState } from "react";
 import QCMHeader from "./QCMHeader";
-import QCMStats from "./QCMStats";
-import QCMList from "./QCMList";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { GraduationCap, BookOpen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const QCMLayout = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  
+  const categories = [
+    {
+      id: "year1",
+      title: "اختبارات المحاماة - السنة الأولى",
+      description: "اختبارات من سنة 2000 إلى 2045",
+      icon: <GraduationCap className="w-8 h-8" />,
+      path: "/qcm/test-list1",
+    },
+    {
+      id: "year2",
+      title: "اختبارات المحاماة - السنة الثانية",
+      description: "اختبارات من سنة 2000 إلى 2045",
+      icon: <GraduationCap className="w-8 h-8" />,
+      path: "/qcm/test-list",
+    },
+    {
+      id: "subjects",
+      title: "اختبارات حسب المادة",
+      description: "القانون المدني، الجنائي، التجاري وغيرها",
+      icon: <BookOpen className="w-8 h-8" />,
+      path: "/qcm/subjects",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <QCMHeader />
       
       <div className="container mx-auto px-4 py-8 max-w-7xl pt-20">
-        <QCMStats />
-        
-        <Tabs defaultValue="lawyer" className="space-y-6">
-          <TabsList className="w-full justify-start bg-white/50 backdrop-blur-sm border border-primary/10">
-            <TabsTrigger value="lawyer" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-white">
-              اختبارات مناظرة المحاماة
-            </TabsTrigger>
-            <TabsTrigger value="other" className="flex-1 data-[state=active]:bg-primary data-[state=active]:text-white">
-              اختبارات مناظرات أخرى
-            </TabsTrigger>
-          </TabsList>
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl font-bold">الاختبارات المتوفرة</h1>
+          </div>
 
-          <TabsContent value="lawyer" className="space-y-6 animate-fade-in">
-            <QCMList />
-          </TabsContent>
-
-          <TabsContent value="other" className="animate-fade-in">
-            <div className="bg-white/50 backdrop-blur-sm border border-primary/10 p-8 rounded-lg text-center space-y-4">
-              <h3 className="text-2xl font-bold mb-2">اختبارات مناظرات أخرى</h3>
-              <p className="text-muted-foreground mb-4">قريباً...</p>
-              <div className="w-16 h-16 mx-auto rounded-full bg-primary/5 flex items-center justify-center">
-                <Clock className="h-8 w-8 text-primary" />
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {categories.map((category) => (
+              <Card key={category.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                    {category.icon}
+                    <CardTitle>{category.title}</CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-muted-foreground">{category.description}</p>
+                  <Button
+                    className="w-full"
+                    onClick={() => navigate(category.path)}
+                  >
+                    عرض الاختبارات
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
