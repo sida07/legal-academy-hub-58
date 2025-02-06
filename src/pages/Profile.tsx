@@ -4,6 +4,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { CoursesList } from "@/components/profile/CoursesList";
 import { CertificatesList } from "@/components/profile/CertificatesList";
 import { NotificationsList } from "@/components/profile/NotificationsList";
+import BottomNav from "@/components/profile/BottomNav";
 
 const Profile = () => {
   const userProfile = {
@@ -70,7 +71,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F8F7FF] to-[#E5DEFF] p-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#F8F7FF] to-[#E5DEFF] p-8 pb-24">
       <div className="max-w-7xl mx-auto">
         <ProfileHeader userProfile={userProfile} />
 
@@ -103,6 +104,7 @@ const Profile = () => {
           </TabsContent>
         </Tabs>
       </div>
+      <BottomNav />
     </div>
   );
 };
