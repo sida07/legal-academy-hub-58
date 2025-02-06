@@ -65,12 +65,6 @@ const Blog = () => {
                   العودة للرئيسية
                 </Button>
               </Link>
-              <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all" asChild>
-                <Link to="/blog/new">
-                  <Zap className="ml-2 h-4 w-4" />
-                  إضافة مقال جديد
-                </Link>
-              </Button>
             </div>
           </div>
 
