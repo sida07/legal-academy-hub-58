@@ -1,6 +1,6 @@
 const Hero = () => {
   return (
-    <div className="bg-primary text-white py-20 px-4">
+    <div className="bg-gradient-primary text-white py-20 px-4">
       <div className="max-w-7xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
           منصتك الشاملة للتحضير للمناظرات القانونية
