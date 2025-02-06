@@ -21,46 +21,77 @@ import {
 } from "@/components/ui/dialog";
 import { Plus, Edit, Trash, Tag, ChartBar } from "lucide-react";
 
-// Mock data for blog posts
-const initialPosts = [
-  {
-    id: 1,
-    title: "مقدمة في القانون المدني",
-    excerpt: "شرح مبسط لأساسيات القانون المدني وتطبيقاته في الحياة اليومية",
-    views: 1234,
-    comments: 23,
-    status: "published",
-    date: "2024-03-15",
-  },
-  {
-    id: 2,
-    title: "حقوق الملكية الفكرية",
-    excerpt: "دليل شامل لفهم حقوق الملكية الفكرية وكيفية حمايتها",
-    views: 890,
-    comments: 15,
-    status: "draft",
-    date: "2024-03-14",
-  },
-];
+interface Post {
+  id: number;
+  title: string;
+  excerpt: string;
+  content?: string;
+  views: number;
+  comments: number;
+  status: "published" | "draft";
+  date: string;
+}
 
 const BlogManagement = () => {
   const { toast } = useToast();
-  const [posts, setPosts] = useState(initialPosts);
-  const [isNewPostDialogOpen, setIsNewPostDialogOpen] = useState(false);
-  const [newPost, setNewPost] = useState({
-    title: "",
-    content: "",
-    image: null as File | null,
-  });
+  const [posts, setPosts] = useState<Post[]>([
+    {
+      id: 1,
+      title: "مقدمة في القانون المدني",
+      excerpt: "شرح مبسط لأساسيات القانون المدني وتطبيقاته في الحياة اليومية",
+      content: "محتوى المقال الكامل هنا...",
+      views: 1234,
+      comments: 23,
+      status: "published",
+      date: "2024-03-15",
+    },
+    {
+      id: 2,
+      title: "حقوق الملكية الفكرية",
+      excerpt: "دليل شامل لفهم حقوق الملكية الفكرية وكيفية حمايتها",
+      content: "محتوى المقال الكامل هنا...",
+      views: 890,
+      comments: 15,
+      status: "draft",
+      date: "2024-03-14",
+    },
+  ]);
 
-  const handleNewPost = () => {
-    console.log("Creating new post:", newPost);
+  const [isNewPostDialogOpen, setIsNewPostDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [editedPost, setEditedPost] = useState<Partial<Post>>({});
+
+  const handleEditPost = (post: Post) => {
+    setSelectedPost(post);
+    setEditedPost(post);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (!selectedPost || !editedPost.title || !editedPost.content) {
+      toast({
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setPosts(posts.map(post => 
+      post.id === selectedPost.id 
+        ? { ...post, ...editedPost }
+        : post
+    ));
+
     toast({
-      title: "تم إنشاء المقال بنجاح",
-      description: "تم حفظ المقال الجديد في قاعدة البيانات",
+      title: "تم التحديث",
+      description: "تم تحديث المقال بنجاح",
     });
-    setIsNewPostDialogOpen(false);
-    setNewPost({ title: "", content: "", image: null });
+
+    setIsEditDialogOpen(false);
+    setSelectedPost(null);
+    setEditedPost({});
   };
 
   const handleDeletePost = (id: number) => {
@@ -69,13 +100,6 @@ const BlogManagement = () => {
       title: "تم حذف المقال",
       description: "تم حذف المقال بنجاح",
     });
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewPost({ ...newPost, image: file });
-    }
   };
 
   return (
@@ -210,7 +234,11 @@ const BlogManagement = () => {
                 </TableCell>
                 <TableCell>
                   <div className="flex space-x-2 rtl:space-x-reverse">
-                    <Button variant="ghost" size="sm">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => handleEditPost(post)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
@@ -227,6 +255,47 @@ const BlogManagement = () => {
           </TableBody>
         </Table>
       </Card>
+
+      {/* Edit Post Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle>تعديل المقال</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <label htmlFor="edit-title" className="text-right block">
+                عنوان المقال
+              </label>
+              <Input
+                id="edit-title"
+                value={editedPost.title || ""}
+                onChange={(e) =>
+                  setEditedPost({ ...editedPost, title: e.target.value })
+                }
+                placeholder="أدخل عنوان المقال"
+              />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="edit-content" className="text-right block">
+                محتوى المقال
+              </label>
+              <Textarea
+                id="edit-content"
+                value={editedPost.content || ""}
+                onChange={(e) =>
+                  setEditedPost({ ...editedPost, content: e.target.value })
+                }
+                placeholder="أدخل محتوى المقال"
+                className="min-h-[200px]"
+              />
+            </div>
+            <Button onClick={handleSaveEdit} className="w-full">
+              حفظ التغييرات
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
