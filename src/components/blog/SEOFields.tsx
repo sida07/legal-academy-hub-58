@@ -1,7 +1,3 @@
-import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-
 interface SEOFieldsProps {
   seoTitle: string;
   metaDescription: string;
@@ -21,40 +17,52 @@ export const SEOFields = ({
 }: SEOFieldsProps) => {
   return (
     <div className="space-y-4">
-      <FormItem>
-        <FormLabel>عنوان SEO (الحد الأقصى: 60 حرف)</FormLabel>
-        <FormControl>
-          <Input
-            value={seoTitle}
-            onChange={(e) => onSEOTitleChange(e.target.value)}
-            maxLength={60}
-            placeholder="عنوان مخصص لمحركات البحث"
-          />
-        </FormControl>
-      </FormItem>
+      <div className="space-y-2">
+        <label htmlFor="seoTitle" className="text-right block">
+          عنوان SEO
+        </label>
+        <input
+          id="seoTitle"
+          value={seoTitle}
+          onChange={(e) => onSEOTitleChange(e.target.value)}
+          maxLength={60}
+          className="w-full p-2 border rounded"
+          placeholder="أدخل عنوان SEO (الحد الأقصى: 60 حرف)"
+        />
+        <div className="text-sm text-gray-500 text-right">
+          {seoTitle.length}/60 حرف
+        </div>
+      </div>
 
-      <FormItem>
-        <FormLabel>الوصف التعريفي (الحد الأقصى: 160 حرف)</FormLabel>
-        <FormControl>
-          <Textarea
-            value={metaDescription}
-            onChange={(e) => onMetaDescriptionChange(e.target.value)}
-            maxLength={160}
-            placeholder="وصف مخصص يظهر في نتائج البحث"
-          />
-        </FormControl>
-      </FormItem>
+      <div className="space-y-2">
+        <label htmlFor="metaDescription" className="text-right block">
+          الوصف التعريفي
+        </label>
+        <textarea
+          id="metaDescription"
+          value={metaDescription}
+          onChange={(e) => onMetaDescriptionChange(e.target.value)}
+          maxLength={160}
+          className="w-full p-2 border rounded"
+          placeholder="أدخل الوصف التعريفي (الحد الأقصى: 160 حرف)"
+        />
+        <div className="text-sm text-gray-500 text-right">
+          {metaDescription.length}/160 حرف
+        </div>
+      </div>
 
-      <FormItem>
-        <FormLabel>الكلمات المفتاحية (مفصولة بفواصل)</FormLabel>
-        <FormControl>
-          <Input
-            value={keywords}
-            onChange={(e) => onKeywordsChange(e.target.value)}
-            placeholder="مثال: قانون، محاماة، استشارات قانونية"
-          />
-        </FormControl>
-      </FormItem>
+      <div className="space-y-2">
+        <label htmlFor="keywords" className="text-right block">
+          الكلمات المفتاحية
+        </label>
+        <input
+          id="keywords"
+          value={keywords}
+          onChange={(e) => onKeywordsChange(e.target.value)}
+          className="w-full p-2 border rounded"
+          placeholder="أدخل الكلمات المفتاحية مفصولة بفواصل"
+        />
+      </div>
     </div>
   );
 };

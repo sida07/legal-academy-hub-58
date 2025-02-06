@@ -1,6 +1,3 @@
-import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-
 interface ImageOptimizationProps {
   altText: string;
   onAltTextChange: (value: string) => void;
@@ -14,27 +11,31 @@ export const ImageOptimization = ({
 }: ImageOptimizationProps) => {
   return (
     <div className="space-y-4">
-      <FormItem>
-        <FormLabel>الصورة المميزة</FormLabel>
-        <FormControl>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={onImageUpload}
-          />
-        </FormControl>
-      </FormItem>
+      <div className="space-y-2">
+        <label htmlFor="image" className="text-right block">
+          صورة المقال
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          onChange={onImageUpload}
+          className="w-full p-2 border rounded"
+        />
+      </div>
 
-      <FormItem>
-        <FormLabel>النص البديل للصورة (Alt Text)</FormLabel>
-        <FormControl>
-          <Input
-            value={altText}
-            onChange={(e) => onAltTextChange(e.target.value)}
-            placeholder="وصف مختصر للصورة يساعد محركات البحث"
-          />
-        </FormControl>
-      </FormItem>
+      <div className="space-y-2">
+        <label htmlFor="altText" className="text-right block">
+          النص البديل للصورة
+        </label>
+        <input
+          id="altText"
+          value={altText}
+          onChange={(e) => onAltTextChange(e.target.value)}
+          className="w-full p-2 border rounded"
+          placeholder="أدخل وصفاً للصورة يساعد في تحسين SEO"
+        />
+      </div>
     </div>
   );
 };
