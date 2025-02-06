@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 import {
   LineChart,
@@ -7,6 +6,7 @@ import {
   Pie,
   ResponsiveContainer,
   Tooltip,
+  Cell,
 } from "recharts";
 import StatCard from "@/components/dashboard/StatCard";
 
@@ -20,9 +20,8 @@ const userActivityData = [
 ];
 
 const courseProgressData = [
-  { name: "مكتمل", value: 60 },
-  { name: "قيد التقدم", value: 30 },
-  { name: "لم يبدأ", value: 10 },
+  { name: "مشتركين", value: 60, color: "#4F46E5" },
+  { name: "غير مشتركين", value: 40, color: "#E5E7EB" },
 ];
 
 const Dashboard = () => {
@@ -57,7 +56,7 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="p-6">
-          <h3 className="text-lg font-semibold mb-4">نسبة التقدم في الدورات</h3>
+          <h3 className="text-lg font-semibold mb-4">نسبة المشتركين في الدورات</h3>
           <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -68,8 +67,14 @@ const Dashboard = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={100}
-                  fill="#1E40AF"
-                />
+                  fill="#4F46E5"
+                  opacity={0.9}
+                  label={({ name, value }) => `${name}: ${value}%`}
+                >
+                  {courseProgressData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
@@ -84,9 +89,10 @@ const Dashboard = () => {
                 <Line
                   type="monotone"
                   dataKey="value"
-                  stroke="#1E40AF"
+                  stroke="#4F46E5"
                   strokeWidth={2}
-                  dot={{ fill: "#1E40AF" }}
+                  dot={{ fill: "#4F46E5" }}
+                  opacity={0.9}
                 />
                 <Tooltip />
               </LineChart>
