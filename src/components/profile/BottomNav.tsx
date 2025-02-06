@@ -3,7 +3,7 @@ import { Home, BookOpen, MessageSquare, User } from "lucide-react";
 
 const BottomNav = () => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#E5DEFF] shadow-lg py-3 px-6 z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-[#E5DEFF] shadow-lg py-3 px-6 z-50">
       <div className="max-w-screen-xl mx-auto">
         <div className="flex justify-around items-center">
           <Link 

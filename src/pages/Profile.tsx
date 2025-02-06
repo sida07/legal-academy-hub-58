@@ -71,8 +71,9 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F8F7FF] to-[#E5DEFF] p-8 pb-24">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-[#F8F7FF] to-[#E5DEFF]">
+      <BottomNav />
+      <div className="max-w-7xl mx-auto p-8 pt-24">
         <ProfileHeader userProfile={userProfile} />
 
         <Tabs defaultValue="courses" className="space-y-6">
@@ -104,7 +105,6 @@ const Profile = () => {
           </TabsContent>
         </Tabs>
       </div>
-      <BottomNav />
     </div>
   );
 };
