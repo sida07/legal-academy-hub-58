@@ -33,6 +33,7 @@ interface Post {
   status: "published" | "draft";
   date: string;
   image?: string;
+  imageFile?: File;
   seoTitle?: string;
   metaDescription?: string;
   keywords?: string;
@@ -42,7 +43,7 @@ interface Post {
 interface NewPost {
   title: string;
   content: string;
-  image?: File;
+  imageFile?: File;
   seoTitle: string;
   metaDescription: string;
   keywords: string;
@@ -122,7 +123,7 @@ const BlogManagement = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setNewPost((prev) => ({ ...prev, image: file }));
+      setNewPost((prev) => ({ ...prev, imageFile: file }));
     }
   };
 
@@ -145,6 +146,7 @@ const BlogManagement = () => {
       comments: 0,
       status: "draft",
       date: new Date().toISOString().split("T")[0],
+      imageFile: newPost.imageFile,
       seoTitle: newPost.seoTitle,
       metaDescription: newPost.metaDescription,
       keywords: newPost.keywords,
