@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -28,6 +29,7 @@ import QCMYearList from "./pages/dashboard/qcm/QCMYearList";
 import QCMSubjects from "./pages/dashboard/qcm/QCMSubjects";
 import Subjects from "./pages/qcm/Subjects";
 import BlogManagement from "./pages/dashboard/BlogManagement";
+import MCQTest from "./pages/MCQTest";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +60,7 @@ const App = () => (
           <Route path="/qcm/test-list" element={<TestList category="lawyer" />} />
           <Route path="/qcm/test-list1" element={<FirstYearTestList />} />
           <Route path="/qcm/subjects" element={<Subjects />} />
+          <Route path="/mcq-test" element={<MCQTest />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
