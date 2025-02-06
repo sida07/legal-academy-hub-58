@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -11,6 +10,7 @@ import {
   Users,
   MessageSquare,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface ForumSidebarProps {
   categories: {
@@ -54,22 +54,27 @@ const ForumSidebar = ({ categories }: ForumSidebarProps) => {
         <h2 className="text-lg font-semibold mb-4">التصنيفات القانونية</h2>
         <nav className="space-y-2">
           {categories.map((category) => (
-            <Button
+            <Link
               key={category.id}
-              variant="ghost"
-              className={cn(
-                "w-full justify-start text-right mb-2 hover:bg-blue-50 hover:text-blue-600",
-                "transition-colors duration-200"
-              )}
+              to={`/forum/category/${encodeURIComponent(category.name)}`}
+              className="block w-full"
             >
-              <span className="ml-3 text-xl">{category.icon}</span>
-              <div className="flex flex-col items-start">
-                <span>{category.name}</span>
-                <span className="text-xs text-gray-500">
-                  {category.topicsCount} موضوع • {category.postsCount} مشاركة
-                </span>
-              </div>
-            </Button>
+              <Button
+                variant="ghost"
+                className={cn(
+                  "w-full justify-start text-right mb-2 hover:bg-blue-50 hover:text-blue-600",
+                  "transition-colors duration-200"
+                )}
+              >
+                <span className="ml-3 text-xl">{category.icon}</span>
+                <div className="flex flex-col items-start">
+                  <span>{category.name}</span>
+                  <span className="text-xs text-gray-500">
+                    {category.topicsCount} موضوع • {category.postsCount} مشاركة
+                  </span>
+                </div>
+              </Button>
+            </Link>
           ))}
         </nav>
       </div>
