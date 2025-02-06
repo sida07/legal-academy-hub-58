@@ -7,7 +7,6 @@ import {
   UsersIcon, 
   Trash2, 
   Ban, 
-  Shield, 
   Mail,
   UserCog,
   Filter
@@ -118,7 +117,7 @@ export default function Users() {
 
   return (
     <div className="p-6 space-y-6">
-      <Card>
+      <Card className="shadow-lg">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-2xl font-bold flex items-center gap-2">
             <UsersIcon className="h-6 w-6" /> إدارة المستخدمين
@@ -166,21 +165,21 @@ export default function Users() {
             </div>
           </div>
 
-          <div className="rounded-md border">
+          <div className="rounded-lg border bg-card">
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell>الاسم</TableCell>
-                  <TableCell>البريد الإلكتروني</TableCell>
-                  <TableCell>الدور</TableCell>
-                  <TableCell>الحالة</TableCell>
-                  <TableCell>تاريخ الانضمام</TableCell>
-                  <TableCell>إجراءات</TableCell>
+                <TableRow className="bg-muted/50">
+                  <TableCell className="font-semibold">الاسم</TableCell>
+                  <TableCell className="font-semibold">البريد الإلكتروني</TableCell>
+                  <TableCell className="font-semibold">الدور</TableCell>
+                  <TableCell className="font-semibold">الحالة</TableCell>
+                  <TableCell className="font-semibold">تاريخ الانضمام</TableCell>
+                  <TableCell className="font-semibold">إجراءات</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {filteredUsers.map((user) => (
-                  <TableRow key={user.id}>
+                  <TableRow key={user.id} className="hover:bg-muted/30">
                     <TableCell className="font-medium">{user.name}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
