@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
@@ -89,10 +89,8 @@ const BlogManagement = () => {
       return;
     }
 
-    setPosts(posts.map(post => 
-      post.id === selectedPost.id 
-        ? { ...post, ...editedPost }
-        : post
+    setPosts(posts.map((post) =>
+      post.id === selectedPost.id ? { ...post, ...editedPost } : post
     ));
 
     toast({
@@ -106,9 +104,9 @@ const BlogManagement = () => {
   };
 
   const handleDeletePost = (id: number) => {
-    setPosts(posts.filter(post => post.id !== id));
+    setPosts(posts.filter((post) => post.id !== id));
     toast({
-      title: "تم حذف المقال",
+      title: "تم الحذف",
       description: "تم حذف المقال بنجاح",
     });
   };
@@ -116,7 +114,7 @@ const BlogManagement = () => {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setNewPost(prev => ({ ...prev, image: file }));
+      setNewPost((prev) => ({ ...prev, image: file }));
     }
   };
 
@@ -144,12 +142,14 @@ const BlogManagement = () => {
     setPosts([newPostData, ...posts]);
     setNewPost({ title: "", content: "" });
     setIsNewPostDialogOpen(false);
-    
+
     toast({
       title: "تم الإضافة",
       description: "تم إضافة المقال بنجاح",
     });
   };
+
+  // ... keep existing code (JSX for the component UI)
 
   return (
     <div className="space-y-6">
