@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
@@ -48,7 +49,7 @@ const AdminSidebar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <aside className="h-screen w-64 border-l bg-white p-4">
+    <aside className="fixed top-0 right-0 h-screen w-64 border-l bg-white p-4 shadow-lg overflow-y-auto z-50">
       <nav className="space-y-2">
         {sidebarLinks.map((link) => {
           const Icon = link.icon;
