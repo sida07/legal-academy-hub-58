@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, TrendingUp, Clock, HelpCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import ForumSidebar from "@/components/forum/ForumSidebar";
 import ForumTopicList from "@/components/forum/ForumTopicList";
 
@@ -51,6 +52,42 @@ const Forum = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pr-10 py-6 text-lg border-none focus:ring-2 focus:ring-blue-500"
               />
+            </div>
+
+            {/* Filter Buttons */}
+            <div className="flex gap-3 overflow-x-auto pb-2">
+              <Button
+                variant={selectedFilter === "popular" ? "default" : "outline"}
+                onClick={() => setSelectedFilter("popular")}
+                className="flex items-center gap-2"
+              >
+                <TrendingUp className="h-4 w-4" />
+                المواضيع الأكثر شعبية
+              </Button>
+              <Button
+                variant={selectedFilter === "recent" ? "default" : "outline"}
+                onClick={() => setSelectedFilter("recent")}
+                className="flex items-center gap-2"
+              >
+                <Clock className="h-4 w-4" />
+                الأحدث
+              </Button>
+              <Button
+                variant={selectedFilter === "unanswered" ? "default" : "outline"}
+                onClick={() => setSelectedFilter("unanswered")}
+                className="flex items-center gap-2"
+              >
+                <HelpCircle className="h-4 w-4" />
+                الأسئلة غير المجابة
+              </Button>
+              <Button
+                variant={selectedFilter === "my-topics" ? "default" : "outline"}
+                onClick={() => setSelectedFilter("my-topics")}
+                className="flex items-center gap-2"
+              >
+                <User className="h-4 w-4" />
+                مواضيعي
+              </Button>
             </div>
 
             <ForumTopicList
