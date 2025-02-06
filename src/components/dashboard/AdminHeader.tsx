@@ -11,7 +11,8 @@ import {
   Sun,
   LogOut,
   Lock,
-  Shield
+  Shield,
+  FileText
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -73,6 +74,15 @@ const AdminHeader = () => {
               <span className="sr-only">إدارة المستخدمين</span>
               <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
                 إدارة المستخدمين
+              </span>
+            </Button>
+
+            {/* Blog Management */}
+            <Button variant="ghost" size="icon" className="relative group">
+              <FileText className="h-5 w-5" />
+              <span className="sr-only">إدارة المدونة</span>
+              <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                إدارة المدونة
               </span>
             </Button>
 
