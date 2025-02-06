@@ -10,7 +10,12 @@ const Navbar = () => {
     <nav className="bg-white/80 backdrop-blur-md shadow-sm fixed w-full z-50 border-b border-primary/10 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/lovable-uploads/b02377b1-a3f0-4568-b9b2-f7de3f450e14.png" 
+              alt="منصة القانون" 
+              className="h-10 w-auto"
+            />
             <Link to="/" className="text-xl font-bold text-primary hover:opacity-80 transition-opacity">
               منصة القانون
             </Link>
