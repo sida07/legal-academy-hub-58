@@ -3,7 +3,7 @@ import QCMHeader from "@/components/qcm/QCMHeader";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Book, Users, BarChart2 } from "lucide-react";
+import { Book, Users, BarChart2, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Subject } from "@/types/qcm";
 
@@ -33,19 +33,26 @@ const Subjects = () => {
               <Card key={subject.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-center gap-4">
-                    <Book className="w-8 h-8" />
-                    <CardTitle>{subject.name}</CardTitle>
+                    <Book className="w-8 h-8 text-primary" />
+                    <CardTitle className="text-xl">{subject.name}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex justify-between text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4" />
-                      {subject.participants} مشارك
+                  <div className="grid grid-cols-3 gap-4 text-sm text-muted-foreground">
+                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-secondary/50">
+                      <FileText className="w-4 h-4" />
+                      <span>{subject.questionCount}</span>
+                      <span>سؤال</span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-secondary/50">
+                      <Users className="w-4 h-4" />
+                      <span>{subject.participants}</span>
+                      <span>مشارك</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1 p-2 rounded-lg bg-secondary/50">
                       <BarChart2 className="w-4 h-4" />
-                      {subject.successRate}%
+                      <span>{subject.successRate}%</span>
+                      <span>نجاح</span>
                     </div>
                   </div>
                   <Button
