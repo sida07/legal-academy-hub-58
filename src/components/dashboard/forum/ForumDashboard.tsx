@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { Ban, Flag, MessageSquare, Search, Trash2, UserX } from "lucide-react";
+import { Ban, Flag, MessageSquare, Search } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ForumTopicList from "./ForumTopicList";
 import ForumCommentList from "./ForumCommentList";
@@ -15,6 +14,7 @@ const ForumDashboard = () => {
 
   const handleDeleteTopic = (topicId: string) => {
     console.log("Deleting topic:", topicId);
+    // Here you would typically make an API call to delete the topic
     toast({
       title: "تم حذف الموضوع",
       description: "تم حذف الموضوع بنجاح",
@@ -23,14 +23,17 @@ const ForumDashboard = () => {
 
   const handleBanUser = (userId: string) => {
     console.log("Banning user:", userId);
+    // Here you would typically make an API call to ban the user
     toast({
       title: "تم حظر المستخدم",
       description: "تم حظر المستخدم بنجاح",
+      variant: "destructive",
     });
   };
 
   const handleDeleteComment = (commentId: string) => {
     console.log("Deleting comment:", commentId);
+    // Here you would typically make an API call to delete the comment
     toast({
       title: "تم حذف التعليق",
       description: "تم حذف التعليق بنجاح",
@@ -72,15 +75,26 @@ const ForumDashboard = () => {
         </TabsList>
 
         <TabsContent value="topics">
-          <ForumTopicList searchQuery={searchQuery} onDeleteTopic={handleDeleteTopic} onBanUser={handleBanUser} />
+          <ForumTopicList 
+            searchQuery={searchQuery} 
+            onDeleteTopic={handleDeleteTopic} 
+            onBanUser={handleBanUser} 
+          />
         </TabsContent>
 
         <TabsContent value="comments">
-          <ForumCommentList searchQuery={searchQuery} onDeleteComment={handleDeleteComment} onBanUser={handleBanUser} />
+          <ForumCommentList 
+            searchQuery={searchQuery} 
+            onDeleteComment={handleDeleteComment} 
+            onBanUser={handleBanUser} 
+          />
         </TabsContent>
 
         <TabsContent value="reports">
-          <ForumReportList searchQuery={searchQuery} onBanUser={handleBanUser} />
+          <ForumReportList 
+            searchQuery={searchQuery} 
+            onBanUser={handleBanUser} 
+          />
         </TabsContent>
       </Tabs>
     </div>

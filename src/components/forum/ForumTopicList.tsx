@@ -1,4 +1,3 @@
-
 import { MessageSquare, ThumbsUp, Star, Share2, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -55,6 +54,10 @@ const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) =>
           text: topic.description,
           url: window.location.href,
         });
+        toast({
+          title: "تمت المشاركة",
+          description: "تم مشاركة الموضوع بنجاح",
+        });
       } catch (err) {
         console.error("Error sharing:", err);
       }
@@ -67,9 +70,38 @@ const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) =>
     }
   };
 
+  const handleVote = (topicId: number) => {
+    console.log("Voting for topic:", topicId);
+    // Here you would typically make an API call to update the vote count
+    toast({
+      title: "تم التصويت",
+      description: "تم تسجيل تصويتك بنجاح",
+    });
+  };
+
+  const filteredTopics = mockTopics.filter(topic => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      topic.title.toLowerCase().includes(searchLower) ||
+      topic.description.toLowerCase().includes(searchLower) ||
+      topic.category.toLowerCase().includes(searchLower)
+    );
+  });
+
+  const sortedTopics = [...filteredTopics].sort((a, b) => {
+    switch (selectedFilter) {
+      case "popular":
+        return b.votes - a.votes;
+      case "recent":
+        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+      default:
+        return 0;
+    }
+  });
+
   return (
     <div className="space-y-4">
-      {mockTopics.map((topic) => (
+      {sortedTopics.map((topic) => (
         <Link
           key={topic.id}
           to={`/forum/topic/${topic.id}`}
@@ -106,6 +138,10 @@ const ForumTopicList = ({ selectedFilter, searchQuery }: ForumTopicListProps) =>
                       variant="ghost"
                       size="sm"
                       className="flex items-center gap-1 hover:text-blue-600"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleVote(topic.id);
+                      }}
                     >
                       <ThumbsUp className="h-4 w-4" />
                       <span>{topic.votes}</span>
