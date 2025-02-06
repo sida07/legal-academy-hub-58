@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { SEOFields } from "@/components/blog/SEOFields";
+import { ImageOptimization } from "@/components/blog/ImageOptimization";
 import {
   Table,
   TableBody,
@@ -31,12 +33,20 @@ interface Post {
   status: "published" | "draft";
   date: string;
   image?: string;
+  seoTitle?: string;
+  metaDescription?: string;
+  keywords?: string;
+  altText?: string;
 }
 
 interface NewPost {
   title: string;
   content: string;
   image?: File;
+  seoTitle: string;
+  metaDescription: string;
+  keywords: string;
+  altText: string;
 }
 
 const BlogManagement = () => {
@@ -51,16 +61,10 @@ const BlogManagement = () => {
       comments: 23,
       status: "published",
       date: "2024-03-15",
-    },
-    {
-      id: 2,
-      title: "حقوق الملكية الفكرية",
-      excerpt: "دليل شامل لفهم حقوق الملكية الفكرية وكيفية حمايتها",
-      content: "محتوى المقال الكامل هنا...",
-      views: 890,
-      comments: 15,
-      status: "draft",
-      date: "2024-03-14",
+      seoTitle: "دليل شامل للقانون المدني | موقع القانون",
+      metaDescription: "تعرف على أساسيات القانون المدني وتطبيقاته العملية في الحياة اليومية. دليل مبسط للمبتدئين.",
+      keywords: "قانون مدني، حقوق، التزامات، عقود",
+      altText: "صورة توضيحية لمفهوم القانون المدني",
     },
   ]);
 
@@ -71,6 +75,10 @@ const BlogManagement = () => {
   const [newPost, setNewPost] = useState<NewPost>({
     title: "",
     content: "",
+    seoTitle: "",
+    metaDescription: "",
+    keywords: "",
+    altText: "",
   });
 
   const handleEditPost = (post: Post) => {
@@ -137,10 +145,21 @@ const BlogManagement = () => {
       comments: 0,
       status: "draft",
       date: new Date().toISOString().split("T")[0],
+      seoTitle: newPost.seoTitle,
+      metaDescription: newPost.metaDescription,
+      keywords: newPost.keywords,
+      altText: newPost.altText,
     };
 
     setPosts([newPostData, ...posts]);
-    setNewPost({ title: "", content: "" });
+    setNewPost({
+      title: "",
+      content: "",
+      seoTitle: "",
+      metaDescription: "",
+      keywords: "",
+      altText: "",
+    });
     setIsNewPostDialogOpen(false);
 
     toast({
@@ -148,8 +167,6 @@ const BlogManagement = () => {
       description: "تم إضافة المقال بنجاح",
     });
   };
-
-  // ... keep existing code (JSX for the component UI)
 
   return (
     <div className="space-y-6">
@@ -162,49 +179,62 @@ const BlogManagement = () => {
               مقال جديد
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px]">
+          <DialogContent className="sm:max-w-[800px]">
             <DialogHeader>
               <DialogTitle>إضافة مقال جديد</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <label htmlFor="title" className="text-right block">
-                  عنوان المقال
-                </label>
-                <Input
-                  id="title"
-                  value={newPost.title}
-                  onChange={(e) =>
-                    setNewPost({ ...newPost, title: e.target.value })
-                  }
-                  placeholder="أدخل عنوان المقال"
-                />
+            <div className="space-y-6 py-4">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="title" className="text-right block">
+                    عنوان المقال
+                  </label>
+                  <Input
+                    id="title"
+                    value={newPost.title}
+                    onChange={(e) =>
+                      setNewPost({ ...newPost, title: e.target.value })
+                    }
+                    placeholder="أدخل عنوان المقال"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="content" className="text-right block">
+                    محتوى المقال
+                  </label>
+                  <Textarea
+                    id="content"
+                    value={newPost.content}
+                    onChange={(e) =>
+                      setNewPost({ ...newPost, content: e.target.value })
+                    }
+                    placeholder="أدخل محتوى المقال"
+                    className="min-h-[200px]"
+                  />
+                </div>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="content" className="text-right block">
-                  محتوى المقال
-                </label>
-                <Textarea
-                  id="content"
-                  value={newPost.content}
-                  onChange={(e) =>
-                    setNewPost({ ...newPost, content: e.target.value })
-                  }
-                  placeholder="أدخل محتوى المقال"
-                  className="min-h-[200px]"
+
+              <Card className="p-4">
+                <h3 className="text-lg font-semibold mb-4">تحسين محركات البحث (SEO)</h3>
+                <SEOFields
+                  seoTitle={newPost.seoTitle}
+                  metaDescription={newPost.metaDescription}
+                  keywords={newPost.keywords}
+                  onSEOTitleChange={(value) => setNewPost({ ...newPost, seoTitle: value })}
+                  onMetaDescriptionChange={(value) => setNewPost({ ...newPost, metaDescription: value })}
+                  onKeywordsChange={(value) => setNewPost({ ...newPost, keywords: value })}
                 />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="image" className="text-right block">
-                  الصورة المميزة
-                </label>
-                <Input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
+              </Card>
+
+              <Card className="p-4">
+                <h3 className="text-lg font-semibold mb-4">تحسين الصور</h3>
+                <ImageOptimization
+                  altText={newPost.altText}
+                  onAltTextChange={(value) => setNewPost({ ...newPost, altText: value })}
+                  onImageUpload={handleImageUpload}
                 />
-              </div>
+              </Card>
+
               <Button onClick={handleNewPost} className="w-full">
                 نشر المقال
               </Button>
@@ -250,7 +280,6 @@ const BlogManagement = () => {
         </Card>
       </div>
 
-      {/* Posts Table */}
       <Card>
         <Table>
           <TableHeader>
@@ -266,7 +295,12 @@ const BlogManagement = () => {
           <TableBody>
             {posts.map((post) => (
               <TableRow key={post.id}>
-                <TableCell className="font-medium">{post.title}</TableCell>
+                <TableCell className="font-medium">
+                  <div>
+                    <p>{post.title}</p>
+                    <p className="text-sm text-gray-500">{post.seoTitle}</p>
+                  </div>
+                </TableCell>
                 <TableCell>{post.date}</TableCell>
                 <TableCell>{post.views}</TableCell>
                 <TableCell>{post.comments}</TableCell>
@@ -307,38 +341,67 @@ const BlogManagement = () => {
 
       {/* Edit Post Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[800px]">
           <DialogHeader>
             <DialogTitle>تعديل المقال</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <label htmlFor="edit-title" className="text-right block">
-                عنوان المقال
-              </label>
-              <Input
-                id="edit-title"
-                value={editedPost.title || ""}
-                onChange={(e) =>
-                  setEditedPost({ ...editedPost, title: e.target.value })
-                }
-                placeholder="أدخل عنوان المقال"
-              />
+          <div className="space-y-6 py-4">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="edit-title" className="text-right block">
+                  عنوان المقال
+                </label>
+                <Input
+                  id="edit-title"
+                  value={editedPost.title || ""}
+                  onChange={(e) =>
+                    setEditedPost({ ...editedPost, title: e.target.value })
+                  }
+                  placeholder="أدخل عنوان المقال"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="edit-content" className="text-right block">
+                  محتوى المقال
+                </label>
+                <Textarea
+                  id="edit-content"
+                  value={editedPost.content || ""}
+                  onChange={(e) =>
+                    setEditedPost({ ...editedPost, content: e.target.value })
+                  }
+                  placeholder="أدخل محتوى المقال"
+                  className="min-h-[200px]"
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <label htmlFor="edit-content" className="text-right block">
-                محتوى المقال
-              </label>
-              <Textarea
-                id="edit-content"
-                value={editedPost.content || ""}
-                onChange={(e) =>
-                  setEditedPost({ ...editedPost, content: e.target.value })
-                }
-                placeholder="أدخل محتوى المقال"
-                className="min-h-[200px]"
+
+            <Card className="p-4">
+              <h3 className="text-lg font-semibold mb-4">تحسين محركات البحث (SEO)</h3>
+              <SEOFields
+                seoTitle={editedPost.seoTitle || ""}
+                metaDescription={editedPost.metaDescription || ""}
+                keywords={editedPost.keywords || ""}
+                onSEOTitleChange={(value) => setEditedPost({ ...editedPost, seoTitle: value })}
+                onMetaDescriptionChange={(value) => setEditedPost({ ...editedPost, metaDescription: value })}
+                onKeywordsChange={(value) => setEditedPost({ ...editedPost, keywords: value })}
               />
-            </div>
+            </Card>
+
+            <Card className="p-4">
+              <h3 className="text-lg font-semibold mb-4">تحسين الصور</h3>
+              <ImageOptimization
+                altText={editedPost.altText || ""}
+                onAltTextChange={(value) => setEditedPost({ ...editedPost, altText: value })}
+                onImageUpload={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setEditedPost({ ...editedPost, image: file });
+                  }
+                }}
+              />
+            </Card>
+
             <Button onClick={handleSaveEdit} className="w-full">
               حفظ التغييرات
             </Button>
