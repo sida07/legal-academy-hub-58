@@ -30,6 +30,13 @@ interface Post {
   comments: number;
   status: "published" | "draft";
   date: string;
+  image?: string;
+}
+
+interface NewPost {
+  title: string;
+  content: string;
+  image?: File;
 }
 
 const BlogManagement = () => {
@@ -61,6 +68,10 @@ const BlogManagement = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [editedPost, setEditedPost] = useState<Partial<Post>>({});
+  const [newPost, setNewPost] = useState<NewPost>({
+    title: "",
+    content: "",
+  });
 
   const handleEditPost = (post: Post) => {
     setSelectedPost(post);
@@ -99,6 +110,44 @@ const BlogManagement = () => {
     toast({
       title: "تم حذف المقال",
       description: "تم حذف المقال بنجاح",
+    });
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setNewPost(prev => ({ ...prev, image: file }));
+    }
+  };
+
+  const handleNewPost = () => {
+    if (!newPost.title || !newPost.content) {
+      toast({
+        title: "خطأ",
+        description: "يرجى ملء جميع الحقول المطلوبة",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newPostData: Post = {
+      id: posts.length + 1,
+      title: newPost.title,
+      excerpt: newPost.content.substring(0, 100) + "...",
+      content: newPost.content,
+      views: 0,
+      comments: 0,
+      status: "draft",
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    setPosts([newPostData, ...posts]);
+    setNewPost({ title: "", content: "" });
+    setIsNewPostDialogOpen(false);
+    
+    toast({
+      title: "تم الإضافة",
+      description: "تم إضافة المقال بنجاح",
     });
   };
 
