@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Mail, MapPin, Phone, User } from "lucide-react";
+import { Mail, MapPin, Phone, User, Edit } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileHeaderProps {
   userProfile: {
@@ -15,6 +16,8 @@ interface ProfileHeaderProps {
 }
 
 export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="mb-8">
       <Card className="p-6 bg-white/80 backdrop-blur border-[#D6BCFA]">
@@ -31,9 +34,22 @@ export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
                 <h1 className="text-2xl font-bold text-[#1A1F2C]">{userProfile.name}</h1>
                 <p className="text-[#7E69AB]">{userProfile.bio}</p>
               </div>
-              <Button className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white">
-                تعديل الملف الشخصي
-              </Button>
+              <div className="flex gap-3">
+                <Button 
+                  className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white"
+                  onClick={() => navigate('/profile-settings')}
+                >
+                  <Edit className="w-4 h-4 ml-2" />
+                  تعديل الملف الشخصي
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white"
+                  onClick={() => navigate('/profile-settings')}
+                >
+                  إكمال الملف الشخصي
+                </Button>
+              </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div className="flex items-center gap-2 text-[#6E59A5]">
