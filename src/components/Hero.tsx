@@ -35,7 +35,7 @@ const Hero = () => {
         </div>
         <div className="flex-1 flex justify-center">
           <img 
-            src="/lovable-uploads/c1edf3a5-859b-4b65-83a8-1762858b1b02.png"
+            src="/lovable-uploads/37e8fb5f-cff6-488a-9a63-2a124bf92b15.png"
             alt="Juriste Logo"
             className="w-96 h-96 object-contain"
           />
