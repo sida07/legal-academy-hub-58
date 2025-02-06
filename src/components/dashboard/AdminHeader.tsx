@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { 
   Settings, 
@@ -33,7 +34,7 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b transition-all duration-300">
+    <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 border-b transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-6">
@@ -68,43 +69,42 @@ const AdminHeader = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* User Management */}
-            <Button variant="ghost" size="icon" className="relative group">
-              <Users className="h-5 w-5" />
-              <span className="sr-only">إدارة المستخدمين</span>
-              <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                إدارة المستخدمين
-              </span>
-            </Button>
+            {/* Navigation buttons */}
+            <div className="flex items-center space-x-4">
+              <Button variant="ghost" size="icon" className="relative group">
+                <Users className="h-5 w-5" />
+                <span className="sr-only">إدارة المستخدمين</span>
+                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                  إدارة المستخدمين
+                </span>
+              </Button>
 
-            {/* Blog Management */}
-            <Button variant="ghost" size="icon" className="relative group">
-              <FileText className="h-5 w-5" />
-              <span className="sr-only">إدارة المدونة</span>
-              <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                إدارة المدونة
-              </span>
-            </Button>
+              <Button variant="ghost" size="icon" className="relative group">
+                <FileText className="h-5 w-5" />
+                <span className="sr-only">إدارة المدونة</span>
+                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                  إدارة المدونة
+                </span>
+              </Button>
 
-            {/* Courses Management */}
-            <Button variant="ghost" size="icon" className="relative group">
-              <BookOpen className="h-5 w-5" />
-              <span className="sr-only">إدارة الدورات</span>
-              <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                إدارة الدورات
-              </span>
-            </Button>
+              <Button variant="ghost" size="icon" className="relative group">
+                <BookOpen className="h-5 w-5" />
+                <span className="sr-only">إدارة الدورات</span>
+                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                  إدارة الدورات
+                </span>
+              </Button>
 
-            {/* QCM Management */}
-            <Button variant="ghost" size="icon" className="relative group">
-              <ClipboardList className="h-5 w-5" />
-              <span className="sr-only">إدارة الاختبارات</span>
-              <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
-                إدارة الاختبارات
-              </span>
-            </Button>
+              <Button variant="ghost" size="icon" className="relative group">
+                <ClipboardList className="h-5 w-5" />
+                <span className="sr-only">إدارة الاختبارات</span>
+                <span className="absolute -bottom-12 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap">
+                  إدارة الاختبارات
+                </span>
+              </Button>
+            </div>
 
-            {/* Dashboard Settings */}
+            {/* Settings Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
