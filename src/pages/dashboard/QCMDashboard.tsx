@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,86 +13,60 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  FileText,
-  Plus,
+  Book,
+  GraduationCap,
   Search,
   Users,
   BarChart,
   Pencil,
   Trash2,
+  BookOpen,
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
-interface Test {
+interface Subject {
   id: string;
   title: string;
-  category: "lawyer" | "other";
-  year: string;
-  questionsCount: number;
-  participants: number;
-  successRate: number;
+  progress: number;
+  icon: "book" | "graduationCap" | "bookOpen";
 }
 
 const QCMDashboard = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentTab, setCurrentTab] = useState<"lawyer" | "other">("lawyer");
+  const [currentTab, setCurrentTab] = useState<"subjects" | "users">("subjects");
 
-  // Mock data - will be replaced with actual data from backend
-  const mockTests: Test[] = [
+  const subjects: Subject[] = [
     {
-      id: "1",
-      title: "اختبار سنة 2024",
-      category: "lawyer",
-      year: "2024",
-      questionsCount: 50,
-      participants: 120,
-      successRate: 75,
+      id: "civil",
+      title: "القانون المدني",
+      progress: 75,
+      icon: "book",
     },
     {
-      id: "2",
-      title: "اختبار سنة 2023",
-      category: "lawyer",
-      year: "2023", 
-      questionsCount: 50,
-      participants: 200,
-      successRate: 68,
+      id: "criminal",
+      title: "القانون الجنائي",
+      progress: 60,
+      icon: "graduationCap",
     },
     {
-      id: "3",
-      title: "اختبار سنة 2022",
-      category: "lawyer",
-      year: "2022",
-      questionsCount: 50,
-      participants: 180,
-      successRate: 72,
-    }
+      id: "commercial",
+      title: "القانون التجاري",
+      progress: 30,
+      icon: "bookOpen",
+    },
   ];
 
-  const filteredTests = mockTests.filter(
-    (test) =>
-      test.category === currentTab &&
-      test.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleAddTest = () => {
-    toast({
-      title: "إضافة اختبار جديد",
-      description: "سيتم إضافة هذه الميزة قريباً",
-    });
+  const iconMap = {
+    book: Book,
+    graduationCap: GraduationCap,
+    bookOpen: BookOpen,
   };
 
-  const handleEditTest = (testId: string) => {
+  const handleStartTest = (subjectId: string) => {
     toast({
-      title: "تعديل الاختبار",
-      description: "سيتم إضافة هذه الميزة قريباً",
-    });
-  };
-
-  const handleDeleteTest = (testId: string) => {
-    toast({
-      title: "حذف الاختبار",
-      description: "سيتم إضافة هذه الميزة قريباً",
+      title: "بدء الاختبار",
+      description: `سيتم بدء اختبار ${subjects.find(s => s.id === subjectId)?.title}`,
     });
   };
 
@@ -99,130 +74,87 @@ const QCMDashboard = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">إدارة الاختبارات</h1>
-        <Button onClick={handleAddTest} className="gap-2">
-          <Plus className="w-4 h-4" />
-          إضافة اختبار جديد
-        </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText className="w-5 h-5" />
-              عدد الاختبارات
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{mockTests.length}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              مجموع المشاركين
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {mockTests.reduce((acc, test) => acc + test.participants, 0)}
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart className="w-5 h-5" />
-              متوسط نسبة النجاح
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {Math.round(
-                mockTests.reduce((acc, test) => acc + test.successRate, 0) /
-                  mockTests.length
-              )}
-              %
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+      <Tabs defaultValue="subjects" onValueChange={(v) => setCurrentTab(v as "subjects" | "users")}>
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="subjects">اختبارات حسب المادة</TabsTrigger>
+          <TabsTrigger value="users">المستخدمين</TabsTrigger>
+        </TabsList>
 
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="بحث في الاختبارات..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-4 pr-9"
-            />
+        <TabsContent value="subjects" className="mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {subjects.map((subject) => {
+              const Icon = iconMap[subject.icon];
+              return (
+                <Card key={subject.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-xl flex items-center gap-2">
+                        <Icon className="h-6 w-6 text-primary" />
+                        {subject.title}
+                      </CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                      <Progress value={subject.progress} className="h-2" />
+                      <p className="text-sm text-muted-foreground text-right">
+                        {subject.progress}% مكتمل
+                      </p>
+                    </div>
+                    <Button
+                      className="w-full"
+                      onClick={() => handleStartTest(subject.id)}
+                    >
+                      بدء الاختبار
+                    </Button>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
-        </div>
+        </TabsContent>
 
-        <Tabs defaultValue="lawyer" onValueChange={(v) => setCurrentTab(v as "lawyer" | "other")}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="lawyer">اختبارات المحاماة</TabsTrigger>
-            <TabsTrigger value="other">اختبارات أخرى</TabsTrigger>
-          </TabsList>
+        <TabsContent value="users">
+          <Card>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="relative flex-1">
+                    <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="بحث في المستخدمين..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-4 pr-9"
+                    />
+                  </div>
+                </div>
 
-          <TabsContent value="lawyer" className="mt-6">
-            <Card>
-              <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>الاختبار</TableHead>
-                      <TableHead>عدد الأسئلة</TableHead>
-                      <TableHead>عدد المشاركين</TableHead>
-                      <TableHead>نسبة النجاح</TableHead>
-                      <TableHead>الإجراءات</TableHead>
+                      <TableHead>المستخدم</TableHead>
+                      <TableHead>عدد الاختبارات</TableHead>
+                      <TableHead>النتيجة</TableHead>
+                      <TableHead>آخر نشاط</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredTests.map((test) => (
-                      <TableRow key={test.id}>
-                        <TableCell className="font-medium">{test.title}</TableCell>
-                        <TableCell>{test.questionsCount}</TableCell>
-                        <TableCell>{test.participants}</TableCell>
-                        <TableCell>{test.successRate}%</TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={() => handleEditTest(test.id)}
-                            >
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              size="icon"
-                              onClick={() => handleDeleteTest(test.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    <TableRow>
+                      <TableCell className="font-medium">أحمد محمد</TableCell>
+                      <TableCell>5</TableCell>
+                      <TableCell>85%</TableCell>
+                      <TableCell>منذ ساعة</TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="other">
-            <Card>
-              <CardContent className="p-8 text-center text-muted-foreground">
-                لا توجد اختبارات متوفرة حالياً في هذا القسم
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
