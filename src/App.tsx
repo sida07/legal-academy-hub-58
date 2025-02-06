@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
@@ -33,44 +34,46 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard">
-              <Route index element={<Dashboard />} />
-              <Route path="users/*" element={<Users />} />
-              <Route path="qcm" element={<QCMCategories />} />
-              <Route path="qcm/lawyers/year1" element={<QCMYearList category="year1" />} />
-              <Route path="qcm/lawyers/year2" element={<QCMYearList category="year2" />} />
-              <Route path="qcm/subjects" element={<QCMSubjects />} />
-              <Route path="qcm/exam/:id" element={<ExamView />} />
-              <Route path="courses/*" element={<Courses />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="account" element={<Account />} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard">
+                <Route index element={<Dashboard />} />
+                <Route path="users/*" element={<Users />} />
+                <Route path="qcm" element={<QCMCategories />} />
+                <Route path="qcm/lawyers/year1" element={<QCMYearList category="year1" />} />
+                <Route path="qcm/lawyers/year2" element={<QCMYearList category="year2" />} />
+                <Route path="qcm/subjects" element={<QCMSubjects />} />
+                <Route path="qcm/exam/:id" element={<ExamView />} />
+                <Route path="courses/*" element={<Courses />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="account" element={<Account />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="/forum">
-            <Route index element={<Forum />} />
-            <Route path="category/:categoryId" element={<CategoryView />} />
-            <Route path="topic/:topicId" element={<TopicView />} />
-            <Route path="new-topic" element={<NewTopic />} />
-          </Route>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/course/:id" element={<Course />} />
-          <Route path="/mcq-test" element={<MCQTest />} />
-          <Route path="/qcm" element={<QCM />} />
-          <Route path="/qcm/test-list" element={<TestList category="lawyer" />} />
-          <Route path="/qcm/test-list1" element={<FirstYearTestList />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+            <Route path="/forum">
+              <Route index element={<Forum />} />
+              <Route path="category/:categoryId" element={<CategoryView />} />
+              <Route path="topic/:topicId" element={<TopicView />} />
+              <Route path="new-topic" element={<NewTopic />} />
+            </Route>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/course/:id" element={<Course />} />
+            <Route path="/mcq-test" element={<MCQTest />} />
+            <Route path="/qcm" element={<QCM />} />
+            <Route path="/qcm/test-list" element={<TestList category="lawyer" />} />
+            <Route path="/qcm/test-list1" element={<FirstYearTestList />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
