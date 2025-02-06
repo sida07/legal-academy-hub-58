@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,14 +67,14 @@ const ProfileSettings = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 animate-fade-in">
-          <h2 className="text-2xl font-bold mb-6 text-right">تعديل الملف الشخصي</h2>
+        <div className="bg-white/80 backdrop-blur border-[#D6BCFA] rounded-2xl shadow-lg p-8 animate-fade-in">
+          <h2 className="text-2xl font-bold mb-6 text-right text-[#6E59A5]">تعديل الملف الشخصي</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" dir="rtl">
             {/* Profile Image Upload */}
             <div className="flex justify-center mb-8">
               <div className="relative group">
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
+                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-[#8B5CF6] shadow-lg">
                   <img
                     src="https://github.com/shadcn.png"
                     alt="Profile"
@@ -99,14 +100,14 @@ const ProfileSettings = () => {
             {/* Personal Information */}
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName">الاسم الكامل</Label>
+                <Label htmlFor="fullName" className="text-[#6E59A5]">الاسم الكامل</Label>
                 <div className="relative">
                   <Input
                     id="fullName"
                     {...register("fullName", { required: "الاسم الكامل مطلوب" })}
-                    className="pr-10"
+                    className="pr-10 border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                   />
-                  <User className="absolute top-3 right-3 h-5 w-5 text-gray-400" />
+                  <User className="absolute top-3 right-3 h-5 w-5 text-[#7E69AB]" />
                 </div>
                 {errors.fullName && (
                   <p className="text-sm text-red-500">{errors.fullName.message}</p>
@@ -114,7 +115,7 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">البريد الإلكتروني</Label>
+                <Label htmlFor="email" className="text-[#6E59A5]">البريد الإلكتروني</Label>
                 <div className="relative">
                   <Input
                     id="email"
@@ -126,9 +127,9 @@ const ProfileSettings = () => {
                         message: "البريد الإلكتروني غير صالح"
                       }
                     })}
-                    className="pr-10"
+                    className="pr-10 border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                   />
-                  <Mail className="absolute top-3 right-3 h-5 w-5 text-gray-400" />
+                  <Mail className="absolute top-3 right-3 h-5 w-5 text-[#7E69AB]" />
                 </div>
                 {errors.email && (
                   <p className="text-sm text-red-500">{errors.email.message}</p>
@@ -136,14 +137,14 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">رقم الهاتف</Label>
+                <Label htmlFor="phone" className="text-[#6E59A5]">رقم الهاتف</Label>
                 <div className="relative">
                   <Input
                     id="phone"
                     {...register("phone", { required: "رقم الهاتف مطلوب" })}
-                    className="pr-10"
+                    className="pr-10 border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                   />
-                  <Phone className="absolute top-3 right-3 h-5 w-5 text-gray-400" />
+                  <Phone className="absolute top-3 right-3 h-5 w-5 text-[#7E69AB]" />
                 </div>
                 {errors.phone && (
                   <p className="text-sm text-red-500">{errors.phone.message}</p>
@@ -151,10 +152,11 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="university">الجامعة</Label>
+                <Label htmlFor="university" className="text-[#6E59A5]">الجامعة</Label>
                 <Input
                   id="university"
                   {...register("university", { required: "الجامعة مطلوبة" })}
+                  className="border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                 />
                 {errors.university && (
                   <p className="text-sm text-red-500">{errors.university.message}</p>
@@ -162,10 +164,11 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="specialization">التخصص</Label>
+                <Label htmlFor="specialization" className="text-[#6E59A5]">التخصص</Label>
                 <Input
                   id="specialization"
                   {...register("specialization", { required: "التخصص مطلوب" })}
+                  className="border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                 />
                 {errors.specialization && (
                   <p className="text-sm text-red-500">{errors.specialization.message}</p>
@@ -173,16 +176,16 @@ const ProfileSettings = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">كلمة المرور الجديدة (اختياري)</Label>
+                <Label htmlFor="password" className="text-[#6E59A5]">كلمة المرور الجديدة (اختياري)</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type="password"
                     {...register("password")}
-                    className="pr-10"
+                    className="pr-10 border-[#E5DEFF] focus:border-[#8B5CF6] focus:ring-[#8B5CF6]"
                     placeholder="اترك فارغاً إذا لم ترد التغيير"
                   />
-                  <Lock className="absolute top-3 right-3 h-5 w-5 text-gray-400" />
+                  <Lock className="absolute top-3 right-3 h-5 w-5 text-[#7E69AB]" />
                 </div>
               </div>
             </div>
@@ -192,10 +195,16 @@ const ProfileSettings = () => {
                 type="button"
                 variant="outline"
                 onClick={() => navigate('/profile')}
+                className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white"
               >
                 إلغاء
               </Button>
-              <Button type="submit">حفظ التغييرات</Button>
+              <Button 
+                type="submit"
+                className="bg-[#8B5CF6] hover:bg-[#7E69AB] text-white"
+              >
+                حفظ التغييرات
+              </Button>
             </div>
           </form>
         </div>
