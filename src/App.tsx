@@ -47,6 +47,7 @@ const App = () => (
           <Route path="/forum/topic/:topicId" element={<TopicView />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/settings" element={<ProfileSettings />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="users" element={<Users />} />

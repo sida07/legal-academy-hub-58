@@ -1,26 +1,26 @@
 import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowRight, MessageSquare, Share2, ThumbsUp, Send, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Avatar } from "@/components/ui/avatar";
 
-const mockTopic = {
-  id: 1,
-  title: "كيفية تسجيل شركة تجارية جديدة؟",
-  content: "أريد معرفة الإجراءات القانونية والأوراق المطلوبة لتسجيل شركة تجارية جديدة في المملكة. هل يمكن أن يساعدني أحد بتوضيح الخطوات والمتطلبات؟",
-  category: "القانون التجاري",
+const topicData = {
+  id: "1",
+  title: "سؤال حول القانون التجاري",
+  content: "ما هي الشروط الأساسية لتأسيس شركة تجارية في المغرب؟",
   author: {
-    name: "أحمد محمد",
-    avatar: "https://i.pravatar.cc/150?u=ahmed"
+    id: "123",
+    name: "محمد علي",
+    avatar: "https://i.pravatar.cc/150?u=mohamed"
   },
-  timestamp: "قبل 3 ساعات",
+  timestamp: "منذ 3 ساعات",
   replies: [
     {
-      id: 1,
-      content: "يمكنني مساعدتك في هذا الأمر. أولاً، عليك تحديد نوع الشركة التي تريد تسجيلها...",
+      id: "1",
+      content: "يجب عليك أولاً تحديد نوع الشركة التي تريد تأسيسها...",
       author: {
+        id: "456",
         name: "سارة أحمد",
         avatar: "https://i.pravatar.cc/150?u=sara"
       },
@@ -30,48 +30,26 @@ const mockTopic = {
   ]
 };
 
-// Mock authentication state - replace with actual auth logic later
-const isAuthenticated = false;
-
 const TopicView = () => {
+  const isAuthenticated = true;
   const { topicId } = useParams();
   const [replyContent, setReplyContent] = useState("");
   const [replyImage, setReplyImage] = useState<File | null>(null);
   const [replyImagePreview, setReplyImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: mockTopic.title,
-          text: mockTopic.content,
-          url: window.location.href,
-        });
-      } catch (err) {
-        console.error("Error sharing:", err);
-      }
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast({
-        title: "تم نسخ الرابط",
-        description: "تم نسخ رابط الموضوع إلى الحافظة",
-      });
-    }
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "تم نسخ الرابط",
+      description: "تم نسخ رابط الموضوع إلى الحافظة",
+    });
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        toast({
-          title: "خطأ",
-          description: "حجم الصورة يجب أن يكون أقل من 5 ميجابايت",
-          variant: "destructive",
-        });
-        return;
-      }
-
       setReplyImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -82,106 +60,110 @@ const TopicView = () => {
   };
 
   const handleReply = () => {
-    if (!isAuthenticated) {
+    if (!replyContent.trim()) {
       toast({
-        title: "تنبيه",
-        description: "يجب تسجيل الدخول أولاً للتعليق",
+        title: "خطأ",
+        description: "الرجاء كتابة رد قبل الإرسال",
         variant: "destructive",
       });
       return;
     }
+    // Handle reply submission
+    toast({
+      title: "تم إرسال الرد",
+      description: "تمت إضافة ردك بنجاح",
+    });
+    setReplyContent("");
+    setReplyImage(null);
+    setReplyImagePreview(null);
+  };
 
-    if (replyContent.trim() || replyImage) {
-      // Here you would typically upload the image and submit the reply
-      console.log("Submitting reply with content:", replyContent);
-      console.log("Image to upload:", replyImage);
-      
-      toast({
-        title: "تم إضافة الرد",
-        description: "تم إضافة ردك بنجاح",
-      });
-      setReplyContent("");
-      setReplyImage(null);
-      setReplyImagePreview(null);
-    }
+  const navigateToUserProfile = (userId: string) => {
+    navigate(`/profile/${userId}`);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50" dir="rtl">
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-2 mb-8 text-gray-600">
-          <Link to="/forum" className="hover:text-blue-600 transition-colors">المنتدى</Link>
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="mb-6">
+        <Link to="/forum" className="text-[#6E59A5] hover:text-[#8B5CF6] flex items-center gap-2 mb-4">
           <ArrowRight className="h-4 w-4" />
-          <Link to={`/forum/category/${mockTopic.category}`} className="hover:text-blue-600 transition-colors">
-            {mockTopic.category}
-          </Link>
-          <ArrowRight className="h-4 w-4" />
-          <span className="text-blue-600">{mockTopic.title}</span>
-        </div>
+          العودة إلى المنتدى
+        </Link>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6 animate-fade-in">
-          <div className="flex items-start gap-4 mb-6">
-            <img
-              src={mockTopic.author.avatar}
-              alt={mockTopic.author.name}
-              className="w-12 h-12 rounded-full border-2 border-blue-100"
-            />
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold mb-2">{mockTopic.title}</h1>
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                <span>{mockTopic.author.name}</span>
-                <span>•</span>
-                <span>{mockTopic.timestamp}</span>
+      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="flex items-start gap-4">
+          <img
+            src={topicData.author.avatar}
+            alt={topicData.author.name}
+            className="w-12 h-12 rounded-full cursor-pointer"
+            onClick={() => navigateToUserProfile(topicData.author.id)}
+          />
+          <div className="flex-1">
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <h2 className="text-xl font-semibold mb-1">{topicData.title}</h2>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span 
+                    className="font-medium text-[#6E59A5] cursor-pointer hover:text-[#8B5CF6]"
+                    onClick={() => navigateToUserProfile(topicData.author.id)}
+                  >
+                    {topicData.author.name}
+                  </span>
+                  <span>•</span>
+                  <span>{topicData.timestamp}</span>
+                </div>
               </div>
-              <p className="text-gray-700 leading-relaxed">{mockTopic.content}</p>
+              <Button variant="ghost" onClick={handleShare}>
+                <Share2 className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-4 border-t pt-4">
-            <Button variant="ghost" className="flex items-center gap-2">
-              <ThumbsUp className="h-4 w-4" />
-              <span>إعجاب</span>
-            </Button>
-            <Button variant="ghost" className="flex items-center gap-2" onClick={handleShare}>
-              <Share2 className="h-4 w-4" />
-              <span>مشاركة</span>
-            </Button>
+            <p className="text-gray-700">{topicData.content}</p>
           </div>
         </div>
+      </div>
 
-        <div className="space-y-6 mb-6">
-          <h2 className="text-xl font-semibold">الردود</h2>
-          {mockTopic.replies.map((reply) => (
-            <div key={reply.id} className="bg-white rounded-lg shadow-md p-6 animate-fade-in">
-              <div className="flex items-start gap-4">
-                <img
-                  src={reply.author.avatar}
-                  alt={reply.author.name}
-                  className="w-10 h-10 rounded-full border-2 border-blue-100"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
-                    <span className="font-medium">{reply.author.name}</span>
+      <div className="space-y-6">
+        {topicData.replies.map((reply) => (
+          <div key={reply.id} className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-start gap-4">
+              <img
+                src={reply.author.avatar}
+                alt={reply.author.name}
+                className="w-12 h-12 rounded-full cursor-pointer"
+                onClick={() => navigateToUserProfile(reply.author.id)}
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <span 
+                      className="font-medium text-[#6E59A5] cursor-pointer hover:text-[#8B5CF6]"
+                      onClick={() => navigateToUserProfile(reply.author.id)}
+                    >
+                      {reply.author.name}
+                    </span>
                     <span>•</span>
                     <span>{reply.timestamp}</span>
                   </div>
-                  <p className="text-gray-700">{reply.content}</p>
-                  {reply.image && (
-                    <img 
-                      src={reply.image} 
-                      alt="صورة مرفقة" 
-                      className="mt-4 max-w-full h-auto rounded-lg"
-                    />
-                  )}
                 </div>
+                <p className="text-gray-700">{reply.content}</p>
+                {reply.image && (
+                  <img 
+                    src={reply.image} 
+                    alt="صورة مرفقة" 
+                    className="mt-4 max-w-full h-auto rounded-lg"
+                  />
+                )}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
 
-        {isAuthenticated ? (
-          <div className="bg-white rounded-lg shadow-lg p-6 animate-fade-in">
-            <h3 className="text-lg font-semibold mb-4">أضف رداً</h3>
+      <div className="mt-6">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h3 className="text-lg font-semibold mb-4">إضافة رد</h3>
+          {isAuthenticated ? (
             <div className="space-y-4">
               <Textarea
                 placeholder="اكتب ردك هنا..."
@@ -189,70 +171,55 @@ const TopicView = () => {
                 onChange={(e) => setReplyContent(e.target.value)}
                 className="min-h-[120px]"
               />
-              
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
+                <label className="cursor-pointer">
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
                     className="hidden"
-                    id="image-upload"
                   />
-                  <Button
-                    variant="outline"
-                    onClick={() => document.getElementById('image-upload')?.click()}
-                    className="flex items-center gap-2"
-                  >
-                    <Image className="h-4 w-4" />
-                    إضافة صورة
-                  </Button>
-                  {replyImagePreview && (
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => {
-                        setReplyImage(null);
-                        setReplyImagePreview(null);
-                      }}
-                    >
-                      حذف الصورة
-                    </Button>
-                  )}
-                </div>
-                
+                  <div className="flex items-center gap-2 text-[#6E59A5] hover:text-[#8B5CF6]">
+                    <Image className="h-5 w-5" />
+                    <span>إضافة صورة</span>
+                  </div>
+                </label>
                 {replyImagePreview && (
                   <div className="relative">
                     <img
                       src={replyImagePreview}
-                      alt="معاينة الصورة"
-                      className="max-w-full h-auto rounded-lg"
+                      alt="Preview"
+                      className="h-20 w-20 object-cover rounded"
                     />
+                    <button
+                      onClick={() => {
+                        setReplyImage(null);
+                        setReplyImagePreview(null);
+                      }}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+                    >
+                      ×
+                    </button>
                   </div>
                 )}
               </div>
-
               <div className="flex justify-end">
                 <Button
                   onClick={handleReply}
-                  className="bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white flex items-center gap-2"
                 >
-                  <Send className="h-4 w-4 ml-2" />
+                  <Send className="h-4 w-4" />
                   إرسال الرد
                 </Button>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow-lg p-6 text-center">
-            <p className="text-gray-600 mb-4">يجب تسجيل الدخول للتعليق على هذا الموضوع</p>
-            <Link to="/login">
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                تسجيل الدخول
-              </Button>
-            </Link>
-          </div>
-        )}
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-gray-600 mb-2">يجب تسجيل الدخول لإضافة رد</p>
+              <Button variant="outline">تسجيل الدخول</Button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
