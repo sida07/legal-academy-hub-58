@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, TrendingUp, Zap, Activity } from "lucide-react";
+import { Search, TrendingUp, Zap, Activity, Home } from "lucide-react";
 
 // Mock data for blog posts
 const blogPosts = [
@@ -59,12 +58,20 @@ const Blog = () => {
               </h1>
               <p className="text-gray-600">اكتشف أحدث المقالات والتحليلات القانونية</p>
             </div>
-            <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all" asChild>
-              <Link to="/blog/new">
-                <Zap className="ml-2 h-4 w-4" />
-                إضافة مقال جديد
+            <div className="flex gap-4">
+              <Link to="/">
+                <Button variant="outline" className="flex items-center gap-2">
+                  <Home className="h-4 w-4" />
+                  العودة للرئيسية
+                </Button>
               </Link>
-            </Button>
+              <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all" asChild>
+                <Link to="/blog/new">
+                  <Zap className="ml-2 h-4 w-4" />
+                  إضافة مقال جديد
+                </Link>
+              </Button>
+            </div>
           </div>
 
           {/* Search Bar */}
