@@ -35,13 +35,11 @@ const ProfileSettings = () => {
     try {
       console.log("Submitting profile updates:", data);
       
-      // Show success message
       toast({
         title: "تم التحديث بنجاح",
         description: "تم تحديث معلومات الملف الشخصي",
       });
 
-      // Navigate back to profile page
       navigate('/profile');
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -65,9 +63,9 @@ const ProfileSettings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-[#F8F7FF] to-[#E5DEFF]">
       <div className="container mx-auto px-4 py-8 max-w-3xl">
-        <div className="bg-white/80 backdrop-blur border-[#D6BCFA] rounded-2xl shadow-lg p-8 animate-fade-in">
+        <div className="bg-white/80 backdrop-blur rounded-2xl shadow-lg p-8 border border-[#D6BCFA]">
           <h2 className="text-2xl font-bold mb-6 text-right text-[#6E59A5]">تعديل الملف الشخصي</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" dir="rtl">
@@ -82,7 +80,7 @@ const ProfileSettings = () => {
                   />
                   <label
                     htmlFor="profile-image"
-                    className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
                   >
                     <Camera className="w-8 h-8 text-white" />
                   </label>
@@ -214,3 +212,4 @@ const ProfileSettings = () => {
 };
 
 export default ProfileSettings;
+
