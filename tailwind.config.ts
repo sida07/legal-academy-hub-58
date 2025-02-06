@@ -24,26 +24,26 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#C5A572", // Gold from logo
+          DEFAULT: "#001F3F", // Dark Navy Blue from image
           foreground: "#FFFFFF",
-          dark: "#B08E4F",
-          light: "#D4BC94",
+          dark: "#001429",
+          light: "#003366",
         },
         secondary: {
-          DEFAULT: "#2C2C2C", // Dark gray for contrast
-          foreground: "#FFFFFF",
+          DEFAULT: "#E6E6E6", // Light gray for contrast
+          foreground: "#001F3F",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "#F5F5F5",
-          foreground: "#6B7280",
+          DEFAULT: "#F8F9FA",
+          foreground: "#64748B",
         },
         accent: {
-          DEFAULT: "#E5D5B7", // Light gold
-          foreground: "#2C2C2C",
+          DEFAULT: "#0056B3", // Complementary blue
+          foreground: "#FFFFFF",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
