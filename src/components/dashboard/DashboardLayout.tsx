@@ -1,4 +1,3 @@
-
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -17,7 +16,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <AdminSidebar />
           <div className="flex-1 mr-64">
             <AdminHeader />
-            <main className="max-w-7xl mx-auto p-6 mt-20">
+            <main className="max-w-7xl mx-auto p-6 mt-16">
               <Outlet />
             </main>
           </div>
