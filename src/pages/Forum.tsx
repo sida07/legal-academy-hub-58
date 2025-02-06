@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Search, TrendingUp, Clock, HelpCircle, User } from "lucide-react";
+import { useParams, Link } from "react-router-dom";
+import { Search, TrendingUp, Clock, HelpCircle, User, Home } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ForumSidebar from "@/components/forum/ForumSidebar";
@@ -22,8 +22,6 @@ const Forum = () => {
   const decodedCategoryName = categoryName ? decodeURIComponent(categoryName) : null;
   const currentCategory = categories.find(cat => cat.name === decodedCategoryName);
 
-  console.log("Current category:", decodedCategoryName);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -38,6 +36,12 @@ const Forum = () => {
                 : "منصة للنقاش القانوني وتبادل الخبرات"}
             </p>
           </div>
+          <Link to="/">
+            <Button variant="outline" className="flex items-center gap-2">
+              <Home className="h-4 w-4" />
+              العودة للرئيسية
+            </Button>
+          </Link>
         </div>
 
         <div className="flex gap-6">
