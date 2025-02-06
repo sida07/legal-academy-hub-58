@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowRight, MessageSquare, Share2, ThumbsUp, Send } from "lucide-react";

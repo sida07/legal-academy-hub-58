@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -30,6 +29,7 @@ import QCMSubjects from "./pages/dashboard/qcm/QCMSubjects";
 import Subjects from "./pages/qcm/Subjects";
 import BlogManagement from "./pages/dashboard/BlogManagement";
 import MCQTest from "./pages/MCQTest";
+import TopicView from "./pages/forum/TopicView";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +41,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/course/:id" element={<Course />} />
           <Route path="/forum/*" element={<Forum />} />
+          <Route path="/forum/topic/:topicId" element={<TopicView />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/settings" element={<ProfileSettings />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
