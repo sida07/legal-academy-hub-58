@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Mail, MapPin, Phone, User, Edit } from "lucide-react";
+import { Mail, MapPin, Phone, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface ProfileHeaderProps {
@@ -35,13 +35,6 @@ export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
                 <p className="text-[#7E69AB]">{userProfile.bio}</p>
               </div>
               <div className="flex gap-3">
-                <Button 
-                  className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white"
-                  onClick={() => navigate('/profile-settings')}
-                >
-                  <Edit className="w-4 h-4 ml-2" />
-                  تعديل الملف الشخصي
-                </Button>
                 <Button 
                   variant="outline"
                   className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white"
