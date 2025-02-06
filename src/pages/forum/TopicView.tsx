@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowRight, MessageSquare, Share2, ThumbsUp, Send } from "lucide-react";
+import { ArrowRight, MessageSquare, Share2, ThumbsUp, Send, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -24,7 +24,8 @@ const mockTopic = {
         name: "سارة أحمد",
         avatar: "https://i.pravatar.cc/150?u=sara"
       },
-      timestamp: "قبل ساعتين"
+      timestamp: "قبل ساعتين",
+      image: null
     }
   ]
 };
@@ -35,6 +36,8 @@ const isAuthenticated = false;
 const TopicView = () => {
   const { topicId } = useParams();
   const [replyContent, setReplyContent] = useState("");
+  const [replyImage, setReplyImage] = useState<File | null>(null);
+  const [replyImagePreview, setReplyImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
 
   const handleShare = async () => {
@@ -57,6 +60,27 @@ const TopicView = () => {
     }
   };
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast({
+          title: "خطأ",
+          description: "حجم الصورة يجب أن يكون أقل من 5 ميجابايت",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setReplyImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setReplyImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleReply = () => {
     if (!isAuthenticated) {
       toast({
@@ -67,12 +91,18 @@ const TopicView = () => {
       return;
     }
 
-    if (replyContent.trim()) {
+    if (replyContent.trim() || replyImage) {
+      // Here you would typically upload the image and submit the reply
+      console.log("Submitting reply with content:", replyContent);
+      console.log("Image to upload:", replyImage);
+      
       toast({
         title: "تم إضافة الرد",
         description: "تم إضافة ردك بنجاح",
       });
       setReplyContent("");
+      setReplyImage(null);
+      setReplyImagePreview(null);
     }
   };
 
@@ -136,6 +166,13 @@ const TopicView = () => {
                     <span>{reply.timestamp}</span>
                   </div>
                   <p className="text-gray-700">{reply.content}</p>
+                  {reply.image && (
+                    <img 
+                      src={reply.image} 
+                      alt="صورة مرفقة" 
+                      className="mt-4 max-w-full h-auto rounded-lg"
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -152,6 +189,49 @@ const TopicView = () => {
                 onChange={(e) => setReplyContent(e.target.value)}
                 className="min-h-[120px]"
               />
+              
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="image-upload"
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={() => document.getElementById('image-upload')?.click()}
+                    className="flex items-center gap-2"
+                  >
+                    <Image className="h-4 w-4" />
+                    إضافة صورة
+                  </Button>
+                  {replyImagePreview && (
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        setReplyImage(null);
+                        setReplyImagePreview(null);
+                      }}
+                    >
+                      حذف الصورة
+                    </Button>
+                  )}
+                </div>
+                
+                {replyImagePreview && (
+                  <div className="relative">
+                    <img
+                      src={replyImagePreview}
+                      alt="معاينة الصورة"
+                      className="max-w-full h-auto rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
+
               <div className="flex justify-end">
                 <Button
                   onClick={handleReply}
