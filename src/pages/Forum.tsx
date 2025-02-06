@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { MessageSquare, TrendingUp, Clock, HelpCircle, User, Search, Share2, Eye, ThumbsUp } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import ForumCategory from "@/components/forum/ForumCategory";
 import ForumTopicList from "@/components/forum/ForumTopicList";
 import ForumSidebar from "@/components/forum/ForumSidebar";
+import { Link } from "react-router-dom";
 
 const categories = [
   { id: 1, name: "القانون المدني", icon: "⚖️", topicsCount: 156, postsCount: 1240 },
@@ -36,9 +36,17 @@ const Forum = () => {
             </h1>
             <p className="text-gray-600 mt-2">مكان للنقاش والتعلم في مجال القانون</p>
           </div>
-          <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in">
-            + سؤال جديد
-          </Button>
+          <div className="flex gap-4">
+            <Link to="/forum/categories">
+              <Button variant="outline" className="hover:bg-blue-50">
+                <MessageSquare className="ml-2 h-5 w-5" />
+                التصنيفات القانونية
+              </Button>
+            </Link>
+            <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in">
+              + سؤال جديد
+            </Button>
+          </div>
         </div>
 
         <div className="flex gap-6">
