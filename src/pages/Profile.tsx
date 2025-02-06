@@ -72,31 +72,31 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-[#F1F0FB] to-white">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Profile Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl mb-8 animate-fade-in">
+        <div className="bg-white rounded-2xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl mb-8 animate-fade-in border border-[#E5DEFF]">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
             <div className="relative group">
-              <Avatar className="w-24 h-24 border-4 border-white dark:border-gray-800 relative transition-transform group-hover:scale-105 duration-300">
+              <Avatar className="w-24 h-24 border-4 border-[#9b87f5] relative transition-transform group-hover:scale-105 duration-300">
                 <AvatarImage src="https://github.com/shadcn.png" className="object-cover" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
             <div className="flex-1">
               <div className="text-right">
-                <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] bg-clip-text text-transparent">
                   أحمد محمد السيد
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 mb-2">
+                <p className="text-[#8E9196] mb-2">
                   طالب قانون - الجامعة العربية
                 </p>
-                <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-4 justify-end">
+                <div className="flex items-center gap-6 text-sm text-[#7E69AB] mb-4 justify-end">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">{userStats.posts}</span>
                     <span>مشاركة</span>
                   </div>
-                  <div className="flex items-center gap-2 text-primary">
+                  <div className="flex items-center gap-2 text-[#8B5CF6]">
                     <span className="font-semibold">🏆 {userStats.points}</span>
                     <span>نقطة</span>
                   </div>
@@ -104,14 +104,14 @@ const Profile = () => {
                 <div className="flex gap-2 justify-end">
                   <Button 
                     variant="outline"
-                    className="group relative overflow-hidden transition-all duration-300 hover:border-primary/50"
+                    className="group relative overflow-hidden transition-all duration-300 hover:border-[#9b87f5] hover:text-[#8B5CF6]"
                     onClick={() => navigate('/profile-settings')}
                   >
                     <span className="relative flex items-center gap-2 z-10">
                       <Pencil className="h-4 w-4 transition-transform group-hover:rotate-12" />
                       تعديل الملف الشخصي
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#E5DEFF] to-[#F1F0FB] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                   </Button>
                 </div>
               </div>
@@ -121,25 +121,25 @@ const Profile = () => {
 
         {/* Tabs Section */}
         <Tabs defaultValue="courses" className="space-y-8" dir="rtl">
-          <div className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-xl p-2 shadow-lg animate-slide-up">
-            <TabsList className="grid grid-cols-3 h-auto gap-2">
+          <div className="bg-white/50 backdrop-blur-sm rounded-xl p-2 shadow-lg animate-slide-up border border-[#E5DEFF]">
+            <TabsList className="grid grid-cols-3 h-auto gap-2 bg-[#F1F0FB]">
               <TabsTrigger 
                 value="courses"
-                className="data-[state=active]:bg-primary data-[state=active]:text-white gap-2 py-3"
+                className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white gap-2 py-3 text-[#7E69AB]"
               >
                 <BookOpen className="h-4 w-4" />
                 الدورات المسجلة
               </TabsTrigger>
               <TabsTrigger 
                 value="exams"
-                className="data-[state=active]:bg-primary data-[state=active]:text-white gap-2 py-3"
+                className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white gap-2 py-3 text-[#7E69AB]"
               >
                 <Trophy className="h-4 w-4" />
                 نتائج الاختبارات
               </TabsTrigger>
               <TabsTrigger 
                 value="forum"
-                className="data-[state=active]:bg-primary data-[state=active]:text-white gap-2 py-3"
+                className="data-[state=active]:bg-[#8B5CF6] data-[state=active]:text-white gap-2 py-3 text-[#7E69AB]"
               >
                 <MessageSquare className="h-4 w-4" />
                 نشاط المنتدى
@@ -150,14 +150,14 @@ const Profile = () => {
           <TabsContent value="courses" className="animate-fade-in">
             <div className="space-y-6">
               {courses.map((course) => (
-                <div key={course.id} className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold mb-4 text-right">{course.name}</h3>
+                <div key={course.id} className="bg-white rounded-xl p-6 shadow-sm border border-[#E5DEFF] hover:shadow-md transition-all duration-300">
+                  <h3 className="text-xl font-semibold mb-4 text-right text-[#6E59A5]">{course.name}</h3>
                   <div className="space-y-4">
-                    <Progress value={course.progress} className="w-full" />
-                    <p className="text-sm text-gray-500 dark:text-gray-400 text-right">
+                    <Progress value={course.progress} className="w-full bg-[#F1F0FB]" indicatorClassName="bg-[#8B5CF6]" />
+                    <p className="text-sm text-[#7E69AB] text-right">
                       {course.progress}% مكتمل
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 text-right">
+                    <p className="text-sm text-[#8E9196] text-right">
                       آخر درس: {course.lastLesson}
                     </p>
                   </div>
@@ -167,17 +167,17 @@ const Profile = () => {
           </TabsContent>
 
           <TabsContent value="exams" className="animate-fade-in">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-[#E5DEFF]">
               <div className="space-y-6">
                 {examResults.map((exam) => (
-                  <div key={exam.id} className="flex justify-between items-center border-b pb-4 last:border-0">
-                    <div className="text-primary font-semibold">
+                  <div key={exam.id} className="flex justify-between items-center border-b border-[#E5DEFF] pb-4 last:border-0">
+                    <div className="text-[#8B5CF6] font-semibold">
                       {exam.score}% النتيجة
                     </div>
                     <div className="text-right">
-                      <h3 className="font-semibold mb-1">{exam.name}</h3>
-                      <p className="text-sm text-gray-500">{exam.date}</p>
-                      <p className="text-sm text-gray-500">
+                      <h3 className="font-semibold mb-1 text-[#6E59A5]">{exam.name}</h3>
+                      <p className="text-sm text-[#8E9196]">{exam.date}</p>
+                      <p className="text-sm text-[#7E69AB]">
                         الدرجة الكلية: {exam.total}
                       </p>
                     </div>
@@ -188,15 +188,15 @@ const Profile = () => {
           </TabsContent>
 
           <TabsContent value="forum" className="animate-fade-in">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-[#E5DEFF]">
               <div className="space-y-6">
                 {forumActivity.map((topic) => (
-                  <div key={topic.id} className="flex justify-between items-center border-b pb-4 last:border-0">
-                    <div className="flex gap-4 text-sm text-gray-500">
+                  <div key={topic.id} className="flex justify-between items-center border-b border-[#E5DEFF] pb-4 last:border-0">
+                    <div className="flex gap-4 text-sm text-[#7E69AB]">
                       <span>{topic.likes} إعجاب</span>
                       <span>{topic.replies} رد</span>
                     </div>
-                    <h3 className="font-semibold text-right">{topic.title}</h3>
+                    <h3 className="font-semibold text-right text-[#6E59A5]">{topic.title}</h3>
                   </div>
                 ))}
               </div>
