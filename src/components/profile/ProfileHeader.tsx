@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mail, MapPin, Phone, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProfileHeaderProps {
   userProfile: {
@@ -17,6 +18,19 @@ interface ProfileHeaderProps {
 
 export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleProfileSettings = () => {
+    try {
+      navigate('/profile-settings');
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "خطأ",
+        description: "حدث خطأ أثناء الانتقال إلى إعدادات الملف الشخصي",
+      });
+    }
+  };
 
   return (
     <div className="mb-8">
@@ -38,7 +52,7 @@ export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
                 <Button 
                   variant="outline"
                   className="border-[#8B5CF6] text-[#8B5CF6] hover:bg-[#8B5CF6] hover:text-white"
-                  onClick={() => navigate('/profile-settings')}
+                  onClick={handleProfileSettings}
                 >
                   إكمال الملف الشخصي
                 </Button>
