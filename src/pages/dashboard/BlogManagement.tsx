@@ -137,6 +137,12 @@ const BlogManagement = () => {
       return;
     }
 
+    // Convert File to URL if needed
+    let imageUrl: string | undefined;
+    if (newPost.imageFile) {
+      imageUrl = URL.createObjectURL(newPost.imageFile);
+    }
+
     const newPostData: Post = {
       id: posts.length + 1,
       title: newPost.title,
@@ -146,6 +152,7 @@ const BlogManagement = () => {
       comments: 0,
       status: "draft",
       date: new Date().toISOString().split("T")[0],
+      image: imageUrl,
       imageFile: newPost.imageFile,
       seoTitle: newPost.seoTitle,
       metaDescription: newPost.metaDescription,
