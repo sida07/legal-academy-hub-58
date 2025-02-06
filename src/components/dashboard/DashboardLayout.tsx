@@ -17,7 +17,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <AdminSidebar />
           <div className="flex-1 mr-64">
             <AdminHeader />
-            <main className="max-w-7xl mx-auto p-6">
+            <main className="max-w-7xl mx-auto p-6 mt-20">
               <Outlet />
             </main>
           </div>
