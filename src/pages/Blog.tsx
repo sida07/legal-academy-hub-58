@@ -13,7 +13,7 @@ const blogPosts = [
     excerpt: "شرح مبسط لأساسيات القانون المدني وتطبيقاته في الحياة اليومية",
     author: "د. أحمد محمد",
     date: "2024-03-15",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
     category: "القانون المدني",
     readTime: "5 دقائق"
   },
@@ -23,7 +23,7 @@ const blogPosts = [
     excerpt: "دليل شامل لفهم حقوق الملكية الفكرية وكيفية حمايتها",
     author: "د. سارة أحمد",
     date: "2024-03-14",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
     category: "الملكية الفكرية",
     readTime: "7 دقائق"
   },
@@ -33,7 +33,7 @@ const blogPosts = [
     excerpt: "تحليل لأهم التغييرات في قانون العمل وتأثيرها على أصحاب العمل والموظفين",
     author: "د. محمد علي",
     date: "2024-03-13",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
     category: "قانون العمل",
     readTime: "6 دقائق"
   }
