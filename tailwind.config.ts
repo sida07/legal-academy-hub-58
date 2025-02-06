@@ -24,14 +24,14 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#001F3F", // Dark Navy Blue from image
+          DEFAULT: "#C5A572", // Gold color from logo
           foreground: "#FFFFFF",
-          dark: "#001429",
-          light: "#003366",
+          dark: "#B39461",
+          light: "#D6B683",
         },
         secondary: {
-          DEFAULT: "#E6E6E6", // Light gray for contrast
-          foreground: "#001F3F",
+          DEFAULT: "#0A1E3C", // Dark blue
+          foreground: "#FFFFFF",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -42,7 +42,7 @@ export default {
           foreground: "#64748B",
         },
         accent: {
-          DEFAULT: "#0056B3", // Complementary blue
+          DEFAULT: "#0A1E3C",
           foreground: "#FFFFFF",
         },
         popover: {
@@ -68,20 +68,10 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "fade-in": {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        "slide-up": {
-          "0%": { transform: "translateY(20px)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.5s ease-out",
-        "slide-up": "slide-up 0.5s ease-out",
       },
     },
   },
