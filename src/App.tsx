@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Course from "./pages/Course";
 import Blog from "./pages/Blog";
 import Forum from "./pages/Forum";
+import CategoryView from "./pages/forum/CategoryView";
+import TopicView from "./pages/forum/TopicView";
 import QCM from "./pages/QCM";
 import TestList from "./pages/qcm/TestList";
 import FirstYearTestList from "./pages/qcm/FirstYearTestList";
@@ -29,7 +31,6 @@ import QCMSubjects from "./pages/dashboard/qcm/QCMSubjects";
 import Subjects from "./pages/qcm/Subjects";
 import BlogManagement from "./pages/dashboard/BlogManagement";
 import MCQTest from "./pages/MCQTest";
-import TopicView from "./pages/forum/TopicView";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +41,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/course/:id" element={<Course />} />
-          <Route path="/forum/*" element={<Forum />} />
+          <Route path="/forum" element={<Forum />} />
+          <Route path="/forum/categories" element={<CategoryView />} />
+          <Route path="/forum/category/:categoryName" element={<Forum />} />
           <Route path="/forum/topic/:topicId" element={<TopicView />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/settings" element={<ProfileSettings />} />
