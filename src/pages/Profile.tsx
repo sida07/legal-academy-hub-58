@@ -153,7 +153,7 @@ const Profile = () => {
                 <div key={course.id} className="bg-white rounded-xl p-6 shadow-sm border border-[#E5DEFF] hover:shadow-md transition-all duration-300">
                   <h3 className="text-xl font-semibold mb-4 text-right text-[#6E59A5]">{course.name}</h3>
                   <div className="space-y-4">
-                    <Progress value={course.progress} className="w-full bg-[#F1F0FB]" indicatorClassName="bg-[#8B5CF6]" />
+                    <Progress value={course.progress} className="h-2 bg-[#F1F0FB]" />
                     <p className="text-sm text-[#7E69AB] text-right">
                       {course.progress}% مكتمل
                     </p>
