@@ -51,7 +51,7 @@ const App = () => (
             <Route path="qcm" element={<QCMDashboard />} />
             <Route path="qcm/exam/:id" element={<ExamView />} />
             <Route path="qcm/categories" element={<QCMCategories />} />
-            <Route path="qcm/years" element={<QCMYearList />} />
+            <Route path="qcm/years" element={<QCMYearList category="year1" />} />
             <Route path="qcm/subjects" element={<QCMSubjects />} />
           </Route>
           <Route path="/qcm" element={<QCM />} />
