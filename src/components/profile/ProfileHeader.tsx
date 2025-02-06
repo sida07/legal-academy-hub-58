@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -22,7 +23,7 @@ export const ProfileHeader = ({ userProfile }: ProfileHeaderProps) => {
 
   const handleProfileSettings = () => {
     try {
-      navigate('/profile-settings');
+      navigate('/profile/settings'); // Changed from '/profile-settings' to '/profile/settings'
     } catch (error) {
       toast({
         variant: "destructive",
