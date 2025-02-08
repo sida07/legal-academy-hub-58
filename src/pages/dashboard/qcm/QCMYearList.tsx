@@ -1,6 +1,7 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FileText, Users, BarChart, Eye, Plus } from "lucide-react";
 import { useState } from "react";
 import {
@@ -13,13 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
+import { supabase } from "@/integrations/supabase/client";
 
-interface QCMYearListProps {
-  category: "year1" | "year2";
-}
-
-const QCMYearList = ({ category }: QCMYearListProps) => {
+const QCMYearList = () => {
   const navigate = useNavigate();
+  const { year } = useParams();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [examName, setExamName] = useState("");
@@ -31,11 +30,11 @@ const QCMYearList = ({ category }: QCMYearListProps) => {
     (year) => year <= currentYear
   );
 
-  const title = category === "year1" 
-    ? "اختبارات المحاماة - السنة الأولى" 
-    : "اختبارات المحاماة - السنة الثانية";
+  const title = year === "year2" 
+    ? "اختبارات المحاماة - السنة الثانية" 
+    : "اختبارات المحاماة - السنة الأولى";
 
-  const handleAddExam = () => {
+  const handleAddExam = async () => {
     if (!examName.trim()) {
       toast({
         title: "خطأ",
@@ -44,22 +43,36 @@ const QCMYearList = ({ category }: QCMYearListProps) => {
       return;
     }
 
-    // Here you would typically make an API call to save the exam
-    console.log({
-      name: examName,
-      questionCount: parseInt(questionCount),
-      duration: parseInt(duration),
-    });
+    try {
+      const { data: subject, error } = await supabase
+        .from('subjects')
+        .insert({
+          name: examName,
+          question_count: parseInt(questionCount),
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+        })
+        .select()
+        .single();
 
-    toast({
-      title: "تم إضافة الاختبار",
-      description: "تم إضافة الاختبار بنجاح",
-    });
+      if (error) throw error;
 
-    setIsDialogOpen(false);
-    setExamName("");
-    setQuestionCount("50");
-    setDuration("60");
+      toast({
+        title: "تم إضافة الاختبار",
+        description: "تم إضافة الاختبار بنجاح",
+      });
+
+      setIsDialogOpen(false);
+      setExamName("");
+      setQuestionCount("50");
+      setDuration("60");
+    } catch (error) {
+      console.error('Error adding exam:', error);
+      toast({
+        title: "خطأ",
+        description: "حدث خطأ أثناء إضافة الاختبار",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -73,10 +86,10 @@ const QCMYearList = ({ category }: QCMYearListProps) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {years.map((year) => (
-          <Card key={year} className="hover:shadow-lg transition-shadow">
+        {years.map((yearNum) => (
+          <Card key={yearNum} className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle>اختبار سنة {year}</CardTitle>
+              <CardTitle>اختبار سنة {yearNum}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex justify-between text-sm text-muted-foreground">
@@ -95,7 +108,7 @@ const QCMYearList = ({ category }: QCMYearListProps) => {
               </div>
               <Button
                 className="w-full"
-                onClick={() => navigate(`/dashboard/qcm/exam/${category}-${year}`)}
+                onClick={() => navigate(`/dashboard/qcm/exam/${year}-${yearNum}`)}
               >
                 <Eye className="w-4 h-4 mr-2" />
                 عرض الأسئلة

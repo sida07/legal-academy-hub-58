@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -58,7 +59,7 @@ const App = () => (
             <Route path="qcm" element={<QCMDashboard />} />
             <Route path="qcm/exam/:id" element={<ExamView />} />
             <Route path="qcm/categories" element={<QCMCategories />} />
-            <Route path="qcm/years" element={<QCMYearList category="year1" />} />
+            <Route path="qcm/lawyers/:year" element={<QCMYearList />} />
             <Route path="qcm/subjects" element={<QCMSubjects />} />
           </Route>
           <Route path="/qcm" element={<QCM />} />
