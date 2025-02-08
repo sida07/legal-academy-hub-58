@@ -27,6 +27,15 @@ const ExamView = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [editedText, setEditedText] = useState("");
 
+  // Get current user
+  const { data: session } = useQuery({
+    queryKey: ['session'],
+    queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      return session;
+    }
+  });
+
   // Fetch subject first
   const { data: subject } = useQuery({
     queryKey: ['subject', year],
@@ -69,6 +78,8 @@ const ExamView = () => {
   // Add question mutation
   const addQuestionMutation = useMutation({
     mutationFn: async (values: z.infer<typeof questionSchema>) => {
+      if (!session?.user?.id) throw new Error("User not authenticated");
+      
       const { error } = await supabase
         .from('questions')
         .insert({
@@ -77,7 +88,8 @@ const ExamView = () => {
           correct_answer: parseInt(values.correctAnswer) - 1,
           subject_id: subject?.id,
           year: examYear,
-          category: 'lawyer'
+          category: 'lawyer',
+          user_id: session.user.id
         });
 
       if (error) throw error;
@@ -153,7 +165,7 @@ const ExamView = () => {
   const handleEditConfirm = () => {
     if (selectedQuestion && editedText.trim()) {
       editQuestionMutation.mutate({
-        id: selectedQuestion.id.toString(),
+        id: selectedQuestion.id,
         text: editedText
       });
     }
@@ -166,7 +178,7 @@ const ExamView = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedQuestion) {
-      deleteQuestionMutation.mutate(selectedQuestion.id.toString());
+      deleteQuestionMutation.mutate(selectedQuestion.id);
     }
   };
 

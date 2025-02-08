@@ -12,7 +12,7 @@ export interface Subject {
 }
 
 export interface Question {
-  id: number;
+  id: string;
   text: string;
   options: string[];
   correctAnswer: number;
