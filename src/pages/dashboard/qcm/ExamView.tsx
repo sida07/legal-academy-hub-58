@@ -1,23 +1,21 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Question, questionSchema } from "@/types/qcm";
-import QuestionTable from "@/components/qcm/exam/QuestionTable";
 import NewQuestionDialog from "@/components/qcm/exam/NewQuestionDialog";
 import EditQuestionDialog from "@/components/qcm/exam/EditQuestionDialog";
 import DeleteQuestionDialog from "@/components/qcm/exam/DeleteQuestionDialog";
-import { supabase } from "@/integrations/supabase/client";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import QuestionsList from "@/components/qcm/exam/QuestionsList";
+import { useSubject } from "@/hooks/useSubject";
+import { useQuestions } from "@/hooks/useQuestions";
 import * as z from "zod";
 
 const ExamView = () => {
   const { id } = useParams();
   const { toast } = useToast();
-  const queryClient = useQueryClient();
   const [year, examYear] = (id || '').split('-');
 
   // Dialog states
@@ -27,133 +25,30 @@ const ExamView = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [editedText, setEditedText] = useState("");
 
-  // Get current user
-  const { data: session } = useQuery({
-    queryKey: ['session'],
-    queryFn: async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      return session;
-    }
-  });
-
   // Fetch subject first
-  const { data: subject } = useQuery({
-    queryKey: ['subject', year],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('subjects')
-        .select('*')
-        .eq('name', `اختبار سنة ${examYear}`)
-        .single();
+  const { data: subject } = useSubject(year, examYear);
 
-      if (error) throw error;
-      return data;
-    }
-  });
-
-  // Fetch questions
-  const { data: questions = [], isLoading } = useQuery({
-    queryKey: ['questions', subject?.id],
-    queryFn: async () => {
-      if (!subject?.id) return [];
-      
-      const { data, error } = await supabase
-        .from('questions')
-        .select('*')
-        .eq('subject_id', subject.id)
-        .eq('year', examYear);
-
-      if (error) throw error;
-      
-      return data.map(q => ({
-        id: q.id,
-        text: q.text,
-        options: q.options as string[],
-        correctAnswer: q.correct_answer,
-      }));
-    },
-    enabled: !!subject?.id
-  });
-
-  // Add question mutation
-  const addQuestionMutation = useMutation({
-    mutationFn: async (values: z.infer<typeof questionSchema>) => {
-      if (!session?.user?.id) throw new Error("User not authenticated");
-      
-      const { error } = await supabase
-        .from('questions')
-        .insert({
-          text: values.text,
-          options: [values.option1, values.option2, values.option3],
-          correct_answer: parseInt(values.correctAnswer) - 1,
-          subject_id: subject?.id,
-          year: examYear,
-          category: 'lawyer',
-          user_id: session.user.id
-        });
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['questions'] });
-      setIsNewQuestionDialogOpen(false);
-      toast({
-        title: "تمت الإضافة",
-        description: "تم إضافة السؤال بنجاح",
-      });
-    },
-    onError: (error) => {
-      console.error('Error adding question:', error);
-      toast({
-        title: "خطأ",
-        description: "حدث خطأ أثناء إضافة السؤال",
-        variant: "destructive",
-      });
-    }
-  });
-
-  // Edit question mutation
-  const editQuestionMutation = useMutation({
-    mutationFn: async ({ id, text }: { id: string; text: string }) => {
-      const { error } = await supabase
-        .from('questions')
-        .update({ text })
-        .eq('id', id);
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['questions'] });
-      setIsEditDialogOpen(false);
-      toast({
-        title: "تم التعديل",
-        description: "تم تعديل السؤال بنجاح",
-      });
-    }
-  });
-
-  // Delete question mutation
-  const deleteQuestionMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('questions')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['questions'] });
-      setIsDeleteDialogOpen(false);
-      toast({
-        title: "تم الحذف",
-        description: "تم حذف السؤال بنجاح",
-      });
-    }
-  });
+  // Use questions hook
+  const { questions, isLoading, addQuestion, editQuestion, deleteQuestion } = useQuestions(subject?.id, examYear);
 
   const handleAddQuestion = (values: z.infer<typeof questionSchema>) => {
-    addQuestionMutation.mutate(values);
+    addQuestion(values, {
+      onSuccess: () => {
+        setIsNewQuestionDialogOpen(false);
+        toast({
+          title: "تمت الإضافة",
+          description: "تم إضافة السؤال بنجاح",
+        });
+      },
+      onError: (error) => {
+        console.error('Error adding question:', error);
+        toast({
+          title: "خطأ",
+          description: "حدث خطأ أثناء إضافة السؤال",
+          variant: "destructive",
+        });
+      }
+    });
   };
 
   const handleEditClick = (question: Question) => {
@@ -164,10 +59,18 @@ const ExamView = () => {
 
   const handleEditConfirm = () => {
     if (selectedQuestion && editedText.trim()) {
-      editQuestionMutation.mutate({
-        id: selectedQuestion.id,
-        text: editedText
-      });
+      editQuestion(
+        { id: selectedQuestion.id, text: editedText },
+        {
+          onSuccess: () => {
+            setIsEditDialogOpen(false);
+            toast({
+              title: "تم التعديل",
+              description: "تم تعديل السؤال بنجاح",
+            });
+          }
+        }
+      );
     }
   };
 
@@ -178,7 +81,15 @@ const ExamView = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedQuestion) {
-      deleteQuestionMutation.mutate(selectedQuestion.id);
+      deleteQuestion(selectedQuestion.id, {
+        onSuccess: () => {
+          setIsDeleteDialogOpen(false);
+          toast({
+            title: "تم الحذف",
+            description: "تم حذف السؤال بنجاح",
+          });
+        }
+      });
     }
   };
 
@@ -196,18 +107,12 @@ const ExamView = () => {
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>الأسئلة المتوفرة في اختبار سنة {examYear}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <QuestionTable
-            questions={questions}
-            onEditClick={handleEditClick}
-            onDeleteClick={handleDeleteClick}
-          />
-        </CardContent>
-      </Card>
+      <QuestionsList
+        examYear={examYear}
+        questions={questions}
+        onEditClick={handleEditClick}
+        onDeleteClick={handleDeleteClick}
+      />
 
       <NewQuestionDialog
         open={isNewQuestionDialogOpen}
